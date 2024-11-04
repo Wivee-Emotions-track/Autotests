@@ -1,0 +1,203 @@
+[
+  {
+    "allure_id": 14,
+    "allure_title": "Save and sent brief customer required fields",
+    "description": "send and save with required fields only",
+    "brief_data": {
+      "game_url": "https://examplegame.com",
+      "title": "Minimal Adventure",
+      "genre": "Adventure",
+      "sub_genre": "Fantasy",
+      "average_duration_of_first_session": 15,
+      "game_structure": [
+        {
+          "step_name": "Getting Started",
+          "description": "Introduces the player to the game mechanics."
+        }
+      ],
+      "target_audience": {
+        "age_from": 18,
+        "age_to": 35,
+        "gender": "All",
+        "device": "Apple",
+        "country": [
+          "USA",
+          "Canada"
+        ],
+        "game_experience": "Intermediate"
+      }
+    },
+    "expected_response": {},
+    "ok_code": 200
+  },
+  {
+    "allure_id": 15,
+    "allure_title": "Save and sent brief required fields empty",
+    "description": "send and save with empty required fields",
+    "brief_data": {
+      "game_url": null,
+      "title": null,
+      "genre": null,
+      "sub_genre": null,
+      "average_duration_of_first_session": null,
+      "game_structure": [
+        {
+          "step_name": null,
+          "description": null
+        }
+      ],
+      "target_audience": {
+        "age_from": null,
+        "age_to": null,
+        "gender": null,
+        "country": null,
+        "game_experience": null,
+        "device": null
+      }
+    },
+    "expected_response": {
+      "game_url": [
+        "This field may not be null."
+      ],
+      "title": [
+        "This field may not be null."
+      ],
+      "genre": [
+        "This field may not be null."
+      ],
+      "sub_genre": [
+        "This field may not be null."
+      ],
+      "average_duration_of_first_session": [
+        "Ensure this value is greater than 0."
+      ],
+      "game_structure": [
+        {
+          "step_name": [
+            "This field may not be null."
+          ],
+          "description": [
+            "This field may not be null."
+          ]
+        }
+      ],
+      "target_audience": {
+        "age_from": [
+          "This field may not be null."
+        ],
+        "age_to": [
+          "This field may not be null."
+        ],
+        "gender": [
+          "This field may not be null."
+        ],
+        "country": [
+          "This field may not be null."
+        ],
+        "game_experience": [
+          "This field may not be null."
+        ],
+        "device": [
+          "This field may not be null."
+        ]
+      }
+    },
+    "ok_code": 400
+  },
+  {
+    "allure_id": 16,
+    "allure_title": "Save and sent brief incorrect values 1",
+    "description": "1) average_duration_of_first_session = 0 \n 2) more 4 country \n 3) age_from=-1, age_to=100 \n 4) invalid url",
+    "brief_data": {
+      "game_url": "invalid_url_format",
+      "title": "Valid Title",
+      "genre": "Adventure",
+      "sub_genre": "Fantasy",
+      "average_duration_of_first_session": 0,
+      "game_structure": [
+        {
+          "step_name": "Introduction",
+          "description": "A simple introduction."
+        }
+      ],
+      "target_audience": {
+        "age_from": -1,
+        "age_to": 100,
+        "gender": "All",
+        "country": [
+          "USA",
+          "UK",
+          "Canada",
+          "Germany"
+        ],
+        "game_experience": "Beginner",
+        "device": "Apple"
+      }
+    },
+    "expected_response": {
+      "game_url": [
+        "Enter a valid URL."
+      ],
+      "average_duration_of_first_session": [
+        "Ensure this value is greater than or equal to 1."
+      ],
+      "target_audience": {
+        "age_from": [
+          "Ensure this value is greater than or equal to 0."
+        ],
+        "age_to": [
+          "Ensure this value is less than or equal to 99."
+        ],
+        "country": [
+          "Ensure this field has no more than 3 elements."
+        ]
+      }
+    },
+    "ok_code": 400
+  },
+  {
+    "allure_id": 17,
+    "allure_title": "Save and sent brief incorrect values 2",
+    "description": "1) average_duration_of_first_session = 61 \n 2) age_from>age_to",
+    "brief_data": {
+      "game_url": "https://examplegame.com",
+      "title": "Valid Title",
+      "genre": "Adventure",
+      "sub_genre": "Fantasy",
+      "average_duration_of_first_session": 61,
+      "game_structure": [
+        {
+          "step_name": "Introduction",
+          "description": "A simple introduction."
+        }
+      ],
+      "target_audience": {
+        "age_from": 30,
+        "age_to": 20,
+        "gender": "All",
+        "country": [
+          "USA",
+          "UK",
+          "Canada",
+          "Germany"
+        ],
+        "game_experience": "Beginner",
+        "device": "Apple"
+      }
+    },
+    "expected_response": {
+      "average_duration_of_first_session": [
+        "Ensure this value is greater than or equal to 1."
+      ],
+      "target_audience": {
+        "age_from": [
+          "Ensure this value is greater than or equal to 0."
+        ],
+        "age_to": [
+          "Ensure this value is less than or equal to 99."
+        ]
+      }
+    },
+    "ok_code": 400
+  }
+]

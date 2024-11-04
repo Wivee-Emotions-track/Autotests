@@ -1,0 +1,4 @@
+disable=missing-docstring,
+        too-many-lines,
+        no-member,
+        duplicate-code

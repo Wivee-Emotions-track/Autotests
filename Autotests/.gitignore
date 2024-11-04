@@ -1,0 +1,9 @@
+poetry.lock
+docker-compose.yaml
+pytest_run.sh
+.env
+
+/venv/
+/envs/
+/reports/
+.idea

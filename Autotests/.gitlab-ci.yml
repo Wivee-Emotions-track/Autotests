@@ -1,0 +1,45 @@
+include:
+  - project: devops/gitlab-ci
+    ref: master
+    file: default_linter.yml
+  - project: devops/gitlab-ci
+    ref: master
+    file: default_build.yml
+
+stages:
+  - linter
+  - build
+  - tests
+
+variables:
+  SERVICE_NAME: autotest
+
+build:
+  rules:
+    # do not run if ALLURE_TEST_NAME specified
+    - if: '$ALLURE_TEST_NAME'
+      when: never
+    # run only if changed the files below
+    - changes:
+      - Dockerfile
+      - pyproject.toml
+      - pytest.ini
+      - .pylintrc
+      - config.py
+      when: on_success
+
+testops:
+  stage: tests
+  tags:
+    - autotest
+  image: europe-west1-docker.pkg.dev/infra-snsm/main/autotest:latest
+  rules:
+    # run if ALLURE_TEST_NAME specified
+    - if: '$ALLURE_TEST_NAME'
+      when: on_success
+  script:
+    - "[[ $ENV == 'prod' ]] && cat $prodenv > .env || cat $devenv > .env"
+    - |
+      env | grep -v TOKEN | sort
+      allurectl watch --results reports/allure-results --endpoint "$ALLURE_ENDPOINT" --token "$ALLURE_TOKEN" --project-id "$ALLURE_PROJECT_ID" \
+      -- poetry run pytest --alluredir=reports/allure-results

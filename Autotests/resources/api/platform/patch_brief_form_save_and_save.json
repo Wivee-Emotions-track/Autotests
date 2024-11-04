@@ -1,0 +1,35 @@
+{
+  "game_url": "https://legendquestgame.com",
+  "title": "Legend Quest: Heroes Rising",
+  "genre": "Adventure",
+  "sub_genre": "Fantasy",
+  "average_duration_of_first_session": 0,
+  "research_goals": "Understand player retention in early game stages",
+  "game_structure": [
+    {
+      "step_name": "Tutorial",
+      "description": "Provides basic controls and game mechanics."
+    },
+    {
+      "step_name": "First Challenge",
+      "description": "Introduces a simple quest to get the player familiar with gameplay."
+    }
+  ],
+  "target_audience": {
+    "age_from": 18,
+    "age_to": 35,
+    "gender": "All",
+    "country": [
+      "USA",
+      "Canada",
+      "UK"
+    ],
+    "game_experience": "Intermediate",
+    "game_genres": [
+      "Adventure",
+      "Fantasy",
+      "RPG"
+    ],
+    "details": "Players who enjoy immersive fantasy experiences with quest-based progression"
+  }
+}

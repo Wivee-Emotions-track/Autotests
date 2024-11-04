@@ -1,0 +1,12 @@
+[
+    {
+      "allure_id": 7,
+      "role": "customer",
+      "platform_api_actions": "platform_api_actions_customer"
+    },
+    {
+      "allure_id": 25,
+      "role": "researcher",
+      "platform_api_actions": "platform_api_actions_researcher"
+    }
+]

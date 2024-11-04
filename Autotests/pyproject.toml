@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "sensemetter-autotesting-framework"
+version = "0.1.0"
+description = "Wonderful framework for Sensemetter autotesting!!!"
+authors = ["Liubov Sorokina <liubov.sorokina@sensemitter.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^1.0"
+wrapt = "^1.16"
+deepdiff = "^8.0"
+
+requests = "^2.32"
+playwright = "^1.47"
+antigate = "^1.4"
+
+pytest = "^8.3"
+pytest-xdist = "^3.6"
+pytest-check = "^2.4"
+
+allure-python-commons = "^2.13"
+allure-pytest = "^2.13"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

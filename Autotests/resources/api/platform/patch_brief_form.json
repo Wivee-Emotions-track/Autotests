@@ -1,0 +1,30 @@
+{
+  "game_url": "https://examplegame.com",
+  "title": "Exciting Adventure Game",
+  "genre": "Adventure",
+  "sub_genre": "Fantasy",
+  "average_duration_of_first_session": 30,
+  "research_goals": "Understand user engagement and challenges",
+  "game_structure": [
+    {
+      "step_name": "Introduction",
+      "description": "Players get familiar with the main characters and game mechanics."
+    },
+    {
+      "step_name": "First Quest",
+      "description": "A basic quest to introduce game dynamics and objectives."
+    }
+  ],
+  "target_audience": {
+    "age_from": 18,
+    "age_to": 35,
+    "gender": "All",
+    "country": [
+      "USA",
+      "Canada",
+      "UK"
+    ],
+    "game_experience": "Intermediate",
+    "device": "Mobile"
+  }
+}

@@ -1,0 +1,15 @@
+{
+    "interview_marks": [
+        {
+            "title": "Stage #0",
+            "started_at": 0,
+            "stopped_at": 0,
+            "landmarks": [],
+            "type": "__STAGE__"
+        }
+    ],
+    "title": "res",
+    "meet_id": "https://meet.google.com/zxv-dvxm-wzc?authuser=0",
+    "interview_process_id": "%process_id%",
+    "current_recording_timestamp": 5
+}
