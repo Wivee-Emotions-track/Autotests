@@ -1,7 +1,7 @@
 import pytest
 from playwright.sync_api import sync_playwright
 
-DEFAULT_HEADLESS = True
+DEFAULT_HEADLESS = False
 BROWSERS = {
     "chromium": ["latest"]
     # "firefox": ["latest"],
@@ -29,7 +29,7 @@ def browser(playwright, browser_config):
     browser_type = getattr(playwright, browser_name)
 
     if browser_version == 'latest':
-        browser = browser_type.launch(headless=DEFAULT_HEADLESS)
+        browser = browser_type.launch(headless=DEFAULT_HEADLESS, args=["--start-fullscreen"])
 
     else:
         executable_path = f'/path/to/{browser_name}-{browser_version}'
@@ -42,7 +42,7 @@ def browser(playwright, browser_config):
 
 @pytest.fixture(scope='function')
 def page(browser):
-    context = browser.new_context()
+    context = browser.new_context(viewport={"width": 1920, "height": 1080})
     page = context.new_page()
     yield page
     page.close()

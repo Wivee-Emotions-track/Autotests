@@ -1,6 +1,7 @@
 from urllib.parse import urljoin
 import requests
 
+
 class BaseApiClient:
 
     def __init__(self,

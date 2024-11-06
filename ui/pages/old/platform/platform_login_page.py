@@ -1,7 +1,7 @@
 from playwright.sync_api import Page
 
-from ui.locators.platform.platform_login_page_locators import PlatformLoginPageLocators
-from ui.pages.platform.platform_base_page import PlatformBasePage
+from ui.locators.old.platform.platform_login_page_locators import PlatformLoginPageLocators
+from ui.pages.old.platform.platform_base_page import PlatformBasePage
 
 
 class PlatformLoginPage(PlatformBasePage):

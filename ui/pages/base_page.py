@@ -21,15 +21,16 @@ class BasePage:
     def wait_for_selector(self, locator: str, timeout=None):
         self.page.wait_for_selector(selector=locator, timeout=timeout)
 
-    def click(self, locator: str, timeout=None) -> None:
-        self.page.locator(locator).click(timeout=timeout)
+    def click(self, locator: str, timeout=None, force=True) -> None:
+        self.page.locator(locator).click(timeout=timeout, force=force)
 
     def fill(self, locator: str, data: str, timeout=None) -> None:
         self.page.locator(locator).fill(data, timeout=timeout)
 
-    def enter_value(self, locator: str, data: str, timeout=None):
+    def type_in(self, locator: str, data: str, timeout=None, press_enter=False):
         self.page.fill(locator, data, timeout=timeout)
-        self.page.press(locator, "Enter")
+        if press_enter:
+            self.page.press(locator, "Enter")
 
     def get_text(self, locator: str, index=0, timeout=None) -> str:
         return self.page.locator(locator).nth(index).text_content(timeout=timeout)
@@ -48,3 +49,18 @@ class BasePage:
 
     def reload(self, timeout=None):
         self.page.reload(timeout=timeout)
+
+    def get_elements(self, locator: str, contains_text='', index: int = None):
+        list_of_elements = self.page.locator(locator).all()
+        if contains_text:
+            try:
+                element = [element for element in list_of_elements if contains_text.lower() in
+                       element.text_content().lower()][0]
+            except IndexError:
+                raise TimeoutError(f"Could not find element from the list of elements with text {contains_text}")
+
+            return element
+        elif index:
+            element = list_of_elements[index]
+            return element
+        return list_of_elements

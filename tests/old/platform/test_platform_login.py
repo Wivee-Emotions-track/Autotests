@@ -11,8 +11,8 @@ import pytest
 @allure.label("layer", "ui")
 def test_successful_login(platform_login_page):
     with allure.step("Authorize with valid credentials"):
-        platform_login_page.login(username=os.getenv('GOOGLE_LOGIN'),
-                                  password=os.getenv('GOOGLE_PASSWORD'))
+        platform_login_page.login(username='11111',
+                                  password='11111')
 
 
 @allure.id('9')

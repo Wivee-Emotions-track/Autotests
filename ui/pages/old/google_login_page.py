@@ -8,8 +8,8 @@ from configs.project_paths import SCREENSHOTS_PATH
 from decorators.waits import retry_on_exception, measure_execution_time
 from helpers.anty_capcha import AntiGateClient
 from log import logger
-from ui.locators.google_account_page_locators import GoogleAccountPageLocators
-from ui.locators.google_login_page_locators import GoogleLoginPageLocators
+from ui.locators.old.google_account_page_locators import GoogleAccountPageLocators
+from ui.locators.old.google_login_page_locators import GoogleLoginPageLocators
 from ui.pages.base_page import BasePage
 from playwright._impl._errors import TimeoutError
 
@@ -23,10 +23,10 @@ class GoogleLoginPage(BasePage):
 
     def login(self, username, password):
         try:
-            self.enter_value(locator=GoogleLoginPageLocators.EMAIL_INPUT,
-                             data=username)
-            self.enter_value(locator=GoogleLoginPageLocators.PASSWORD_INPUT,
-                             data=password)
+            self.type_in(locator=GoogleLoginPageLocators.EMAIL_INPUT,
+                         data=username)
+            self.type_in(locator=GoogleLoginPageLocators.PASSWORD_INPUT,
+                         data=password)
             self.wait_for_selector(locator=GoogleAccountPageLocators.GOOGLE_ACCOUNT_HEADER)
         except TimeoutError:
             self.login_with_capcha(username, password)
@@ -35,8 +35,8 @@ class GoogleLoginPage(BasePage):
     @measure_execution_time
     @retry_on_exception(steps=30)
     def login_with_capcha(self, username, password):
-        self.enter_value(locator=GoogleLoginPageLocators.EMAIL_INPUT,
-                         data=username)
+        self.type_in(locator=GoogleLoginPageLocators.EMAIL_INPUT,
+                     data=username)
         self.wait_for_selector(GoogleLoginPageLocators.CAPCHA_IMG)
 
         capcha_id, capcha_screenshot_path = self.make_capcha_screen()
@@ -46,10 +46,10 @@ class GoogleLoginPage(BasePage):
         logger.debug('Antigate start process for capcha  %s', self.capcha_screenshot_path)
         try:
             capcha_value = antigate.captcha_handler(capcha_screenshot_path)
-            self.enter_value(locator=GoogleLoginPageLocators.CAPCHA_INPUT,
-                             data=capcha_value)
-            self.enter_value(locator=GoogleLoginPageLocators.PASSWORD_INPUT,
-                             data=password)
+            self.type_in(locator=GoogleLoginPageLocators.CAPCHA_INPUT,
+                         data=capcha_value)
+            self.type_in(locator=GoogleLoginPageLocators.PASSWORD_INPUT,
+                         data=password)
             self.wait_for_selector(locator=GoogleAccountPageLocators.GOOGLE_ACCOUNT_HEADER)
         except TimeoutError:
             antigate.abuse()

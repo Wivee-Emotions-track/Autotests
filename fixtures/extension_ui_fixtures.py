@@ -1,6 +1,6 @@
 import pytest
 
-from ui.pages.google_login_page import GoogleLoginPage
+from ui.pages.old.google_login_page import GoogleLoginPage
 
 
 @pytest.fixture(scope="function")

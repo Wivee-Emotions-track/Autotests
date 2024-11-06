@@ -1,7 +1,7 @@
 from playwright.sync_api import Page
 from pytest_check import check
 
-from ui.locators.platform.platform_base_locators import PlatformBaseLocators
+from ui.locators.old.platform.platform_base_locators import PlatformBaseLocators
 from ui.pages.base_page import BasePage
 
 from playwright._impl._errors import TimeoutError

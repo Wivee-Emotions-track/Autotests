@@ -1,6 +1,6 @@
 import pytest
 
-from ui.pages.platform.platform_login_page import PlatformLoginPage
+from ui.pages.old.platform.platform_login_page import PlatformLoginPage
 
 
 @pytest.fixture(scope="function")

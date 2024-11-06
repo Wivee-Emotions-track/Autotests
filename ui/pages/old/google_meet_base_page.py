@@ -1,7 +1,7 @@
 from playwright.sync_api import Page
 
 from decorators.waits import retry_on_exception
-from ui.locators.google_meet_base_page_locators import GoogleMeetBasePageLocators
+from ui.locators.old.google_meet_base_page_locators import GoogleMeetBasePageLocators
 from ui.pages.base_page import BasePage
 
 

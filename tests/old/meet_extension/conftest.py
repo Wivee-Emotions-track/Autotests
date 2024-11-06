@@ -6,7 +6,7 @@ import pytest
 from configs.project_paths import CHROME_COOKIES_PATH
 from decorators.waits import repeat_until_true
 from log import logger
-from ui.pages.google_meet_base_page import GoogleMeetBasePage
+from ui.pages.old.google_meet_base_page import GoogleMeetBasePage
 
 
 def save_cookies_to_file(cookies, file_path):
