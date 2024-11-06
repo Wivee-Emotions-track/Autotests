@@ -2,7 +2,8 @@ from time import sleep
 
 import allure
 import pytest
-from allure import step
+
+from ui.pages.dashboard_page import Dashboard
 from ui.pages.login_page import LoginPage
 
 
@@ -17,5 +18,5 @@ def test_wayvee_login(page, username, password, valid):
 
     login_page.login(username, password)
     sleep(5)
-
-    login_page.check_logged_in()
+    dashboard_page = Dashboard(page)
+    dashboard_page.check_logged_in()

@@ -14,7 +14,7 @@ class Dashboard(BasePage):
     users_btn = '.anticon-user'
     api_btn = '[id="Capa_1"]'
     menu_items_list = '.ant-menu-item'
-    profile_btn = '.ant-avatar'
+    profile_label = '.ant-avatar'
 
     # links to pages
     alert_msg = "**/alert-messages"
@@ -57,3 +57,8 @@ class Dashboard(BasePage):
     def go_to_section_via_menu(self, section: str):
         menu_item = self.get_elements(self.menu_items_list, contains_text=section)
         menu_item.click()
+    @allure.step("Check that we were logged in")
+    def check_logged_in(self):
+        if not self.page.is_visible(self.profile_label):
+            assert self.page.is_visible(self.profile_label), \
+                'Failed to log in with valid username and password'
