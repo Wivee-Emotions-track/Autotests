@@ -57,6 +57,7 @@ class Dashboard(BasePage):
     def go_to_section_via_menu(self, section: str):
         menu_item = self.get_elements(self.menu_items_list, contains_text=section)
         menu_item.click()
+
     @allure.step("Check that we were logged in")
     def check_logged_in(self):
         if not self.page.is_visible(self.profile_label):

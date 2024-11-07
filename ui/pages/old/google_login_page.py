@@ -27,7 +27,7 @@ class GoogleLoginPage(BasePage):
                          data=username)
             self.type_in(locator=GoogleLoginPageLocators.PASSWORD_INPUT,
                          data=password)
-            self.wait_for_selector(locator=GoogleAccountPageLocators.GOOGLE_ACCOUNT_HEADER)
+            self.check_presence(locator=GoogleAccountPageLocators.GOOGLE_ACCOUNT_HEADER)
         except TimeoutError:
             self.login_with_capcha(username, password)
             self.screenshot(file_name='after_capcha_login_success_page.png')
@@ -37,7 +37,7 @@ class GoogleLoginPage(BasePage):
     def login_with_capcha(self, username, password):
         self.type_in(locator=GoogleLoginPageLocators.EMAIL_INPUT,
                      data=username)
-        self.wait_for_selector(GoogleLoginPageLocators.CAPCHA_IMG)
+        self.check_presence(GoogleLoginPageLocators.CAPCHA_IMG)
 
         capcha_id, capcha_screenshot_path = self.make_capcha_screen()
 
@@ -50,7 +50,7 @@ class GoogleLoginPage(BasePage):
                          data=capcha_value)
             self.type_in(locator=GoogleLoginPageLocators.PASSWORD_INPUT,
                          data=password)
-            self.wait_for_selector(locator=GoogleAccountPageLocators.GOOGLE_ACCOUNT_HEADER)
+            self.check_presence(locator=GoogleAccountPageLocators.GOOGLE_ACCOUNT_HEADER)
         except TimeoutError:
             antigate.abuse()
             self.page.reload()

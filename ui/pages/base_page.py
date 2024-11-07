@@ -18,8 +18,11 @@ class BasePage:
         else:
             self.page.goto(self.url)
 
-    def wait_for_selector(self, locator: str, timeout=None):
-        self.page.wait_for_selector(selector=locator, timeout=timeout)
+    def check_presence(self, locator: str, timeout=None, visible=True):
+        if visible:
+            self.page.wait_for_selector(selector=locator, timeout=timeout)
+        else:
+            self.page.wait_for_selector(selector=locator, timeout=timeout, state='hidden')
 
     def click(self, locator: str, timeout=None, force=True) -> None:
         self.page.locator(locator).click(timeout=timeout, force=force)
