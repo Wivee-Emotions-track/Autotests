@@ -1,4 +1,4 @@
-BASE_URL = "https://app.wayvee.com/"
+BASE_URL = "https://app-staging.wayvee.com/"
 
 BROWSERS = {
     "chromium": ["latest"],

@@ -58,12 +58,20 @@ class BasePage:
         if contains_text:
             try:
                 element = [element for element in list_of_elements if contains_text.lower() in
-                       element.text_content().lower()][0]
+                           element.text_content().lower()][0]
             except IndexError:
-                raise TimeoutError(f"Could not find element from the list of elements with text {contains_text}")
+                return None
+                # raise TimeoutError(f"Could not find element from the list of elements with text {contains_text}")
 
             return element
         elif index:
-            element = list_of_elements[index]
+            try:
+                element = list_of_elements[index]
+            except IndexError:
+                return None
             return element
         return list_of_elements
+
+    def get_child_element(self, parent_element, child_locator):
+        child_element = parent_element.locator(child_locator)
+        return child_element

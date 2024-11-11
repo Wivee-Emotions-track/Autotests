@@ -28,16 +28,17 @@ def remove_download_files():
         (3, "2024-06-10", "2024-06-15", None, False, "shop_id", "21:00", "23:00", None),
         (3, "2024-06-10", "2024-06-15", None, False, "shop_id", "21:00", "23:00", "engagements_per_customer,csat_avg"),
     ])
-def test_wayvee_dashboard(page, remove_download_files, compare, from_date, to_date,
-                          compareShift, dataSource, splitBy, timeFrom, timeTo,
-                          selectedMetrics):
+def test_check_analytics_export_file(page, remove_download_files, compare, from_date, to_date,
+                                     compareShift, dataSource, splitBy, timeFrom, timeTo,
+                                     selectedMetrics):
 
     login_page = LoginPage(page)
     analytics_page = AnalyticsPage(page)
     base_url = "https://app.wayvee.com/analytics"
 
-    url, params = get_url_with_filter(base_url, compare, from_date, to_date, compareShift, dataSource, splitBy, timeFrom, timeTo,
-                                      selectedMetrics)
+    url, params = get_url_with_filter(base_url, compare, from_date, to_date,
+                                      compareShift, dataSource, splitBy,
+                                      timeFrom, timeTo, selectedMetrics)
 
     login_page.open(url)
 
@@ -64,3 +65,4 @@ def test_wayvee_dashboard(page, remove_download_files, compare, from_date, to_da
 
     with allure.step("Compare downloaded CSV with expected CSV"):
         assert compare_csv_files(downloaded_file_path, expected_file), "CSV files do not match."
+
