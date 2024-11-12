@@ -35,7 +35,9 @@ class BasePage:
         if press_enter:
             self.page.press(locator, "Enter")
 
-    def get_text(self, locator: str, index=0, timeout=None) -> str:
+    def get_text(self, locator: str, input=False, index=0, timeout=None) -> str:
+        if input:
+            return self.page.locator(locator).nth(index).input_value(timeout=timeout)
         return self.page.locator(locator).nth(index).text_content(timeout=timeout)
 
     def get_url(self) -> str:
@@ -54,7 +56,7 @@ class BasePage:
         self.page.reload(timeout=timeout)
 
     def get_elements(self, locator: str, contains_text='', index: int = None):
-        list_of_elements = self.page.locator(locator).all()
+        list_of_elements = self.page.locator(locator).all()  # todo hastext
         if contains_text:
             try:
                 element = [element for element in list_of_elements if contains_text.lower() in
@@ -66,7 +68,7 @@ class BasePage:
             return element
         elif index:
             try:
-                element = list_of_elements[index]
+                element = list_of_elements[index]  # todo нормальное ожидание впилить
             except IndexError:
                 return None
             return element

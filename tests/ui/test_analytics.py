@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 
 import allure
@@ -7,7 +8,7 @@ from ui.pages.analytics_page import AnalyticsPage
 
 
 @pytest.fixture(scope="function")
-def login(page):
+def login_with_date(page):
     username = "dmitrijdmtirij@gmail.com"
     password = "Qwerty_0000"
 
@@ -17,8 +18,18 @@ def login(page):
     login_page.login(username, password)
 
 
+@pytest.fixture(scope="function")
+def login(page):
+    username = "dmitrijdmtirij@gmail.com"
+    password = "Qwerty_0000"
+
+    login_page = LoginPage(page)
+    login_page.open()
+    login_page.login(username, password)
+
+
 @allure.title("Test table preview")
-def test_table_check(page, login):
+def test_table_check(page, login_with_date):
     file_name = f'AutotestExport_{datetime.utcnow().strftime("%d_%m_%H_%M")}'
     analytics_page = AnalyticsPage(page)
     analytics_page.open_graphics()
@@ -28,8 +39,9 @@ def test_table_check(page, login):
 
 
 @allure.title("Test edit table columns")
-def test_edit_table_columns(page, login):
+def test_edit_table_columns(page, login_with_date):
     analytics_page = AnalyticsPage(page)
+    analytics_page.check_page_opened()
     analytics_page.open_settings()
 
     with allure.step("Hide columns"):
@@ -53,9 +65,31 @@ def test_edit_table_columns(page, login):
 
 
 @allure.title("Test check filters")
-def test_edit_table_columns(page, login):
+def test_edit_table(page, login_with_date):
     analytics_page = AnalyticsPage(page)
     analytics_page.select_comparison('Preceding Period')
     analytics_page.click(analytics_page.table_btn)  # to close drop down menu
-
+    time.sleep(3) # todo
     analytics_page.check_comparison_module_is_active()
+
+
+@allure.title("Test check date filters")
+def test_date_filter(page, login):
+
+    analytics_page = AnalyticsPage(page)
+    analytics_page.select_days_ago_in_filter('Last 90 Days')
+    analytics_page.check_date_in_filter(days_ago=90)
+
+    analytics_page.select_days_ago_in_filter('Last Week')
+    analytics_page.check_date_in_filter_with_previous_week()
+
+    analytics_page.select_days_ago_in_filter('Last Month')
+    analytics_page.check_date_in_filter_with_previous_month()
+
+
+@allure.title("Test check time filter")
+def test_time_filter(page, login):
+
+    analytics_page = AnalyticsPage(page)
+    time = analytics_page.select_time()
+    analytics_page.check_time_filer(time[0], time[1])
