@@ -16,6 +16,8 @@ def login_with_date(page):
     url_with_date_filters = login_page.url + '/analytics?zones=&shops=&from=2024-08-13&to=2024-11-11'
     login_page.open(url_with_date_filters)
     login_page.login(username, password)
+    analytics_page = AnalyticsPage(page)
+    analytics_page.check_page_opened()
 
 
 @pytest.fixture(scope="function")
@@ -26,6 +28,8 @@ def login(page):
     login_page = LoginPage(page)
     login_page.open()
     login_page.login(username, password)
+    analytics_page = AnalyticsPage(page)
+    analytics_page.check_page_opened()
 
 
 @allure.title("Test table preview")
@@ -93,3 +97,44 @@ def test_time_filter(page, login):
     analytics_page = AnalyticsPage(page)
     time = analytics_page.select_time()
     analytics_page.check_time_filer(time[0], time[1])
+
+
+@allure.title("Test check zones filter")
+def test_zones_filter(page, login_with_date):
+
+    analytics_page = AnalyticsPage(page)
+    analytics_page.select_zones('TV')
+    analytics_page.check_table_with_filters('Auki Labs ( final )')
+
+
+@allure.title("Test check shops filter")
+def test_shops_filter(page, login_with_date):
+
+    analytics_page = AnalyticsPage(page)
+    analytics_page.select_shops('Auki Labs ( final )')
+    analytics_page.check_table_with_filters('Auki Labs ( final )')
+
+
+@allure.title("Test check charts filter")
+def test_charts_filter(page, login_with_date):
+
+    analytics_page = AnalyticsPage(page)
+    analytics_page.check_page_opened()
+    analytics_page.open_graphics()
+    analytics_page.select_zones("TV")
+    analytics_page.select_chart_option('Overall')
+    analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number"])
+    analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number"])
+
+    analytics_page.select_chart_option('Data Source')
+    analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "RadarRawDataProcessor"])
+    analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "RadarRawDataProcessor"])
+
+    analytics_page.select_chart_option('Zone')
+    analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "TV"])
+    analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "TV"])
+
+    analytics_page.select_chart_option('Shop')
+    analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "Auki Labs ( final )"])
+    analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "Auki Labs ( final )"])
+

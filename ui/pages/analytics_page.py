@@ -1,16 +1,11 @@
 import random
 from datetime import datetime, timedelta
-from time import sleep
-
 import allure
 
-from ui.locators.analytics_page_locators import AnalyticsPageLocators
-from ui.pages.base_page import BasePage
-
-filename = 'DataAnalytics-2024-07-03-2024-07-15'
+from ui.pages.base_dashboard_page import DashboardBasePage
 
 
-class AnalyticsPage(BasePage):
+class AnalyticsPage(DashboardBasePage):
 
     graphics_btn = '[data-icon="line-chart"]'
     table_btn = '[data-icon="table"]'
@@ -30,17 +25,32 @@ class AnalyticsPage(BasePage):
     comparison_dropdown = '.ant-space .ant-dropdown-trigger'
     comparison_menu_item = '.ant-dropdown-menu-item'
     cell = '.ant-table-cell'
+    table_row = '.ant-table-row'
 
     # date filter
     filter_days_ago = '//div[contains(@class, "ant-picker-presets")]//li'
     start_date_input = '[placeholder="Start date"]'
     end_date_input = '[placeholder="End date"]'
 
+    # Zones and shops filter
+    zones_filter = '//span[text()="Zones"]'
+    zones_list_item = '.ant-select-tree-node-content-wrapper'
+    shops_filter = '//span[text()="Shops"]'
+    shops_list_item = '.ant-select-tree-node-content-wrapper'
+    search_filter_input = '[placeholder="Search by name"]'
+
     # time filter
     start_time_input = '[placeholder="Start Time"]'
     end_time_input = '[placeholder="End Time"]'
     hours_items_list = '[data-type="hour"] .ant-picker-time-panel-cell'
     minutes_items_list = '[data-type="minute"] .ant-picker-time-panel-cell'
+
+    # chart
+    first_filter = '(//div/span[contains(@class, "ant-select-selection-item")])[1]'
+    second_filter = '(//div/span[contains(@class, "ant-select-selection-item")])[2]'
+    chart_filter_items = '.ant-select-item'
+    legend_label = '//*[@class="legendtext"]'
+    options_list_item = '.ant-segmented-item'
 
     chart_label = '.plot-container'
     download_btn = '[type="submit"]'
@@ -184,7 +194,9 @@ class AnalyticsPage(BasePage):
                                                             f' is not corresponding with'
                                                             f' calculated date {end_of_last_month_str}')
 
+    @allure.step("select time in time filter ")
     def select_time(self):
+
         start_time = []
         end_time = []
         self.check_presence(self.cell)
@@ -193,6 +205,7 @@ class AnalyticsPage(BasePage):
         hours_list_items = self.get_elements(self.hours_items_list)
         minutes_list_items = self.get_elements(self.minutes_items_list)
 
+        # Получаем рандомный элемент времени (часы и минуты) и запоминаем значения
         begin_hour_element = random.choice(hours_list_items[:-1])
         begin_minute_element = random.choice(minutes_list_items[:-1])
         start_time.append(begin_hour_element.text_content())
@@ -204,6 +217,7 @@ class AnalyticsPage(BasePage):
         begin_hour_element_index = hours_list_items.index(begin_hour_element)
         begin_minute_element_index = minutes_list_items.index(begin_minute_element)
 
+        # Получаем элементы времени, которые будут позже чем выбранное ранее время начала и запоминаем его
         end_hour_element = (
             hours_list_items)[begin_hour_element_index + 1]
         end_minute_element = (
@@ -217,6 +231,41 @@ class AnalyticsPage(BasePage):
 
         return start_time, end_time
 
+    @allure.step("Check time filter")
     def check_time_filer(self, start_time: list, end_time: list):
         assert start_time[0], start_time[1] in self.get_text(self.start_time_input)
         assert end_time[0], end_time[1] in self.get_text(self.end_time_input)
+
+    @allure.step("Select zones filter")
+    def select_zones(self, zone_name):
+
+        self.click(self.zones_filter)
+        self.get_elements(self.zones_list_item, zone_name).click()
+        self.click(self.dashboard_title)
+
+    @allure.step("Select shops filter")
+    def select_shops(self, shop_name):
+
+        self.click(self.shops_filter)
+        self.type_in(self.search_filter_input, shop_name)
+        self.get_elements(self.shops_list_item, shop_name).click()
+        self.click(self.dashboard_title)
+
+    @allure.step("Check table with zone or shop filter")
+    def check_table_with_filters(self, shop_name):
+        self.check_presence(self.table_row)
+        assert self.get_elements(self.table_row, contains_text=shop_name), (f'Shop {shop_name}'
+                                                                            f'doesn`t display in table with filter')
+
+    @allure.step("Select_chart_option")
+    def select_chart_option(self, option_name: str):
+
+        self.get_elements(self.options_list_item, option_name).click()
+
+    @allure.step("Check_legends_containing")
+    def check_legends_containing(self, legend_number, legend_data):
+        self.check_presence(self.legend_label)
+        legend = self.get_elements(self.legend_label, index=legend_number)
+
+        for legend_text in legend_data:
+            assert legend_text in legend.text_content(), 'Data in legend is not valid'

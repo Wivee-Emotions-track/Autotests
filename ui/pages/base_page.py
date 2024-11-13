@@ -66,7 +66,7 @@ class BasePage:
                 # raise TimeoutError(f"Could not find element from the list of elements with text {contains_text}")
 
             return element
-        elif index:
+        elif index is not None:
             try:
                 element = list_of_elements[index]  # todo нормальное ожидание впилить
             except IndexError:
