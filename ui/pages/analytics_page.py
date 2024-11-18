@@ -2,10 +2,10 @@ import random
 from datetime import datetime, timedelta
 import allure
 
-from ui.pages.base_dashboard_page import DashboardBasePage
+from ui.pages.dashboard_page import DashboardPage
 
 
-class AnalyticsPage(DashboardBasePage):
+class AnalyticsPage(DashboardPage):
 
     graphics_btn = '[data-icon="line-chart"]'
     table_btn = '[data-icon="table"]'
@@ -193,43 +193,6 @@ class AnalyticsPage(DashboardBasePage):
         assert last_day_of_month == end_of_last_month_str, (f'Last date of the month {last_day_of_month}'
                                                             f' is not corresponding with'
                                                             f' calculated date {end_of_last_month_str}')
-
-    @allure.step("select time in time filter ")
-    def select_time(self):
-
-        start_time = []
-        end_time = []
-        self.check_presence(self.cell)
-        self.click(self.start_time_input)
-        self.check_presence(self.hours_items_list)
-        hours_list_items = self.get_elements(self.hours_items_list)
-        minutes_list_items = self.get_elements(self.minutes_items_list)
-
-        # Получаем рандомный элемент времени (часы и минуты) и запоминаем значения
-        begin_hour_element = random.choice(hours_list_items[:-1])
-        begin_minute_element = random.choice(minutes_list_items[:-1])
-        start_time.append(begin_hour_element.text_content())
-        start_time.append(begin_minute_element.text_content())
-
-        begin_hour_element.click()
-        begin_minute_element.click()
-
-        begin_hour_element_index = hours_list_items.index(begin_hour_element)
-        begin_minute_element_index = minutes_list_items.index(begin_minute_element)
-
-        # Получаем элементы времени, которые будут позже чем выбранное ранее время начала и запоминаем его
-        end_hour_element = (
-            hours_list_items)[begin_hour_element_index + 1]
-        end_minute_element = (
-            minutes_list_items)[begin_minute_element_index + 1]
-
-        self.click(self.end_time_input)
-        end_time.append(end_hour_element.text_content())
-        end_time.append(end_minute_element.text_content())
-        end_hour_element.click()
-        end_minute_element.click()
-
-        return start_time, end_time
 
     @allure.step("Check time filter")
     def check_time_filer(self, start_time: list, end_time: list):

@@ -18,7 +18,7 @@ class BasePage:
         else:
             self.page.goto(self.url)
 
-    def check_presence(self, locator: str, timeout=None, visible=True):
+    def check_presence(self, locator: str, visible=True, timeout=None):
         if visible:
             self.page.wait_for_selector(selector=locator, timeout=timeout)
         else:
@@ -77,3 +77,13 @@ class BasePage:
     def get_child_element(self, parent_element, child_locator):
         child_element = parent_element.locator(child_locator)
         return child_element
+
+    def should_be(self, locator, contains_text='', input=False):
+
+        element_text = self.get_text(locator, input=input)
+
+        if contains_text:
+
+            assert contains_text.lower() in element_text, \
+                f'No text {contains_text} in element {locator},' \
+                f' displayed text is {element_text}'

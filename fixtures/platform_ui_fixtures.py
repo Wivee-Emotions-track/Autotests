@@ -1,10 +1,13 @@
 import pytest
 
-from ui.pages.old.platform.platform_login_page import PlatformLoginPage
+from ui.pages.login_page import LoginPage
 
 
 @pytest.fixture(scope="function")
-def platform_login_page(page):
-    login_page = PlatformLoginPage(page)
+def login(page):
+    username = "dmitrijdmtirij@gmail.com"
+    password = "Qwerty_0000"
+
+    login_page = LoginPage(page)
     login_page.open()
-    yield login_page
+    login_page.login(username, password)

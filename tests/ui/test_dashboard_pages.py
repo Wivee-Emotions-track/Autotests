@@ -1,6 +1,6 @@
 import allure
 from ui.pages.login_page import LoginPage
-from ui.pages.dashboard_page import Dashboard
+from ui.pages.dashboard_page import DashboardPage
 
 
 @allure.title("Test dashboard pages")
@@ -9,7 +9,7 @@ def test_dashboard_pages(page):
     password = "kz767ErQ9DvNXHuo1afB"
 
     login_page = LoginPage(page)
-    sidebar = Dashboard(page)
+    sidebar = DashboardPage(page)
 
     login_page.open()
     login_page.login(username, password)

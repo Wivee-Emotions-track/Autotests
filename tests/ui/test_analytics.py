@@ -95,7 +95,8 @@ def test_date_filter(page, login):
 def test_time_filter(page, login):
 
     analytics_page = AnalyticsPage(page)
-    time = analytics_page.select_time()
+    analytics_page.check_page_opened()
+    time = analytics_page.select_time(analytics_page.start_time_input, analytics_page.end_time_input)
     analytics_page.check_time_filer(time[0], time[1])
 
 
