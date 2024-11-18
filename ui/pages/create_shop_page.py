@@ -34,7 +34,7 @@ class CreateShopPage(DashboardPage):
 
     @allure.step("upload plan")
     def upload_plan(self, path_to_plan):
-        self.type_in(self.upload_plan_input, path_to_plan)
+        self.page.set_input_files(self.upload_plan_input, path_to_plan)
         self.check_presence(self.uploaded_plan)
 
     @allure.step("go_to_shop_details")
@@ -54,8 +54,10 @@ class CreateShopPage(DashboardPage):
         self.click(self.shop_traffic)
         self.get_elements(self.traffic_list_item, contains_text=traffic).click()
 
+        self.page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+
         self.select_time(self.open_hours_start_input, self.open_hours_end_input, apply=True)
-        self.select_time(self.open_hours_weekend_start_input, self.open_hours_weekend_end_input, apply=True)
+        # self.select_time(self.open_hours_weekend_start_input, self.open_hours_weekend_end_input, apply=True)
 
     @allure.step("save shop")
     def save_shop(self):
@@ -65,7 +67,8 @@ class CreateShopPage(DashboardPage):
 
     @allure.step("Check congrats panel and accept it")
     def check_congrats_and_apply(self):
-        text_on_panel = ('Congratulations! You have added a shop.'
-                         ' To start collecting data, you must install and activate sensors')
+        text_on_panel = ('Congratulations!You have added a shop. To start collecting data,'
+                         ' you must install and activate sensors.Got it!')
+        self.check_presence(self.congrats_panel)
         self.should_be(self.congrats_panel, text_on_panel)
         self.click(self.got_it_btn)

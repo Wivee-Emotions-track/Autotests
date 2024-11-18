@@ -34,7 +34,8 @@ def browser(playwright, browser_config):
     else:
         executable_path = f'/path/to/{browser_name}-{browser_version}'
         browser = browser_type.launch(headless=DEFAULT_HEADLESS,
-                                      executable_path=executable_path)
+                                      executable_path=executable_path,
+                                      args=["--window-size=1920,1080"])
 
     yield browser
     browser.close()
@@ -42,8 +43,13 @@ def browser(playwright, browser_config):
 
 @pytest.fixture(scope='function')
 def page(browser):
-    context = browser.new_context(viewport={"width": 1920, "height": 1080})
+    context = browser.new_context(viewport={"width": 1920, "height": 900},device_scale_factor=1)
+    # context = browser.new_context()
+
     page = context.new_page()
+    page.evaluate("""
+        document.documentElement.requestFullscreen();
+    """)
     yield page
     page.close()
-    context.close()
+    # context.close()

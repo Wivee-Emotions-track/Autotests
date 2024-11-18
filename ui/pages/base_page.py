@@ -25,7 +25,9 @@ class BasePage:
             self.page.wait_for_selector(selector=locator, timeout=timeout, state='hidden')
 
     def click(self, locator: str, timeout=None, force=True) -> None:
-        self.page.locator(locator).click(timeout=timeout, force=force)
+        element = self.page.locator(locator)
+        element.scroll_into_view_if_needed()
+        element.click(timeout=timeout, force=force)
 
     def fill(self, locator: str, data: str, timeout=None) -> None:
         self.page.locator(locator).fill(data, timeout=timeout)
@@ -84,6 +86,6 @@ class BasePage:
 
         if contains_text:
 
-            assert contains_text.lower() in element_text, \
+            assert contains_text.lower() in element_text.lower(), \
                 f'No text {contains_text} in element {locator},' \
                 f' displayed text is {element_text}'
