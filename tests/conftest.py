@@ -11,7 +11,6 @@ pytest_plugins = [
     'fixtures.playwrite_fixtures',
     'fixtures.reporting_fixtures',
 
-    'fixtures.extension_api_fixtures',
     'fixtures.extension_ui_fixtures',
 
     'fixtures.platform_api_fixtures',

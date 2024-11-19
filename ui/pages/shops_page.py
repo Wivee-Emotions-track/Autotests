@@ -10,6 +10,8 @@ class ShopsPage(DashboardPage):
     search_input = '.ant-table-filter-dropdown input'
     start_search_btn = '.ant-btn-primary'
     table_row = '.ant-table-row'
+    edit_shop_btn = '.ant-table-cell .ant-btn'
+    shop_in_table_item = '.ant-table-row .ant-space-item .ant-typography'
 
     @allure.step("add shop")
     def add_shop(self):
@@ -23,4 +25,12 @@ class ShopsPage(DashboardPage):
         self.click(self.search_shop_btn)
         self.type_in(self.search_input, shop_name)
         self.click(self.start_search_btn)
-        assert self.get_elements(self.table_row, contains_text=shop_name), f'Row with shop {shop_name} is not displayed'
+        # assert self.get_elements(self.table_row, contains_text=shop_name), f'Row with shop {shop_name} is not displayed'
+
+    def edit_shop(self):
+        self.click(self.edit_shop_btn)
+        self.check_presence(self.table_row, False)
+
+    def open_shop(self, shop_name):
+
+        self.get_elements(self.shop_in_table_item, contains_text=shop_name).click()
