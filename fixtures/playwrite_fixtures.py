@@ -51,5 +51,5 @@ def page(browser):
         document.documentElement.requestFullscreen();
     """)
     yield page
-    page.close()
+    # page.close()
     # context.close()

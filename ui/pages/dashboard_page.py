@@ -17,6 +17,7 @@ class DashboardPage(BasePage):
     menu_items_list = '.ant-menu-item'
     profile_label = '.ant-avatar'
     dashboard_title = 'header .ant-typography'
+    loader_label = '.ant-spin-dot'
 
     # links to pages
     alert_msg = "**/alert-messages"
@@ -110,3 +111,6 @@ class DashboardPage(BasePage):
             self.click(self.apply_time_btn)
 
         return start_time, end_time
+
+    def check_loader_absence(self):
+        self.check_presence(self.loader_label, False)

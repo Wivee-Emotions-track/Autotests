@@ -25,7 +25,7 @@ def create_shop(fixture_shops_api):
 def test_shop_setup(page, login):
     shop_name = f'AutotestShop_{datetime.utcnow().strftime("%d_%m_%H_%M")}'
     shops_page = ShopsPage(page)
-    time.sleep(5) # todo
+    time.sleep(5)  # todo
     shops_page.add_shop()
 
     create_shop = CreateShopPage(page)
@@ -34,9 +34,13 @@ def test_shop_setup(page, login):
     create_shop.fill_shop_fields(shop_name, "Poland", "Poland", "Automotive", "10 per Day")
     create_shop.save_shop()
     create_shop.check_congrats_and_apply()
-    time.sleep(5) # todo
+    time.sleep(5)  # todo
     shops_page.search_shop(shop_name)
-    assert shops_page.get_elements(shops_page.table_row, contains_text=shop_name), f'Row with shop {shop_name} is not displayed'
+    shops_page.check_search_result(shop_name)
+    shops_page.edit_shop()
+    create_shop.check_edit_page_opened()
+    create_shop.check_shop_data([shop_name, "Poland", "Poland", "Automotive", "10 per Day"])
+
 
 @allure.title("Test edit shop")
 def test_edit_shop(page, create_shop, login):
@@ -46,6 +50,7 @@ def test_edit_shop(page, create_shop, login):
     sidebar.open_shops_page()
     shops_page = ShopsPage(page)
     shops_page.search_shop(shop_name)
+    shops_page.check_search_result(shop_name)
     shops_page.edit_shop()
 
     create_shop = CreateShopPage(page)
@@ -56,6 +61,7 @@ def test_edit_shop(page, create_shop, login):
     create_shop.page.go_back()
 
     shops_page.search_shop(shop_new_name)
+    shops_page.check_search_result(shop_new_name)
     shops_page.edit_shop()
     create_shop.check_edit_page_opened()
     create_shop.check_shop_data(shop_data)
@@ -63,12 +69,26 @@ def test_edit_shop(page, create_shop, login):
 
 @allure.title("Test open shop")
 def test_open_shop(page, create_shop, login):
+
     shop_name = create_shop
     sidebar = DashboardPage(page)
     sidebar.open_shops_page()
     shops_page = ShopsPage(page)
     shops_page.search_shop(shop_name)
+    shops_page.check_search_result(shop_name)
+
     shops_page.open_shop(shop_name)
 
     opened_shops = OpenedShopPage(page)
     opened_shops.check_shop_opened()
+
+
+@allure.title("Test search shop via location")
+def test_search_shop_via_location(page, create_shop, login):
+    shop_name = create_shop
+    sidebar = DashboardPage(page)
+    sidebar.open_shops_page()
+    shops_page = ShopsPage(page)
+    shops_page.search_shop_via_location('Poland')
+    shops_page.check_search_result(shop_name, 'Poland')
+
