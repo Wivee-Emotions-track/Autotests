@@ -50,12 +50,11 @@ def test_revoke_token(create_token, page, login):
     sidebar.open_api_page()
 
     token_page = TokensPage(page)
-    time.sleep(2)  # todo
-    # token_page.add_token(token_name)
+    time.sleep(5)  # todo
     token = token_page.get_created_token(token_name)
 
     token_page.revoke_token(token_name)
 
     ext_api = ExternalApi()
     response = ext_api.get_shops_list(token, check_response=False)
-    assert not response, 'Token is not revoked'
+    assert not response.ok, 'Token is not revoked'

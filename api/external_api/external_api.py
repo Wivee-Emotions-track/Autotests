@@ -13,7 +13,7 @@ class ExternalApi:
           'Authorization': f'Bearer {token}'
         }
 
-        response = requests.request("GET", url + "/v1/shops", headers=headers, data=payload)
+        response = requests.request("GET", url + "v1/shops", headers=headers, data=payload)
         if check_response:
             self.check_response(response)
 
