@@ -1,6 +1,6 @@
 import requests
 
-url = "https://api.app-staging.wayvee.com/"
+url = "https://api-staging.wayvee.com/"
 
 
 class ExternalApi:
