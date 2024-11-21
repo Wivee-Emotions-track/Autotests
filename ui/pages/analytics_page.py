@@ -242,5 +242,4 @@ class AnalyticsPage(DashboardPage):
             row = self.get_elements(self.table_row, contains_text=shop_name)
             cells = self.get_childs_element(row, self.cell)[1:]
             for cell in cells:
-                print(cell.text_content())
                 assert cell.text_content() != '', f'No data for shop {shop_name}'
