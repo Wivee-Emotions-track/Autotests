@@ -52,4 +52,4 @@ def page(browser):
     """)
     yield page
     # page.close()
-    # context.close()
+    context.close()

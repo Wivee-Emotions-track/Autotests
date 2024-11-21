@@ -1,4 +1,5 @@
 import random
+import time
 from datetime import datetime, timedelta
 import allure
 
@@ -232,3 +233,14 @@ class AnalyticsPage(DashboardPage):
 
         for legend_text in legend_data:
             assert legend_text in legend.text_content(), 'Data in legend is not valid'
+
+    @allure.step("Check table cells is not empty")
+    def check_table_is_not_empty(self, shops):
+        self.check_presence(self.table_row)
+        time.sleep(2) # todo
+        for shop_name in shops:
+            row = self.get_elements(self.table_row, contains_text=shop_name)
+            cells = self.get_childs_element(row, self.cell)[1:]
+            for cell in cells:
+                print(cell.text_content())
+                assert cell.text_content() != '', f'No data for shop {shop_name}'

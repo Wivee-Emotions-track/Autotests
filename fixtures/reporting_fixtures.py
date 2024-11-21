@@ -46,6 +46,11 @@ def pytest_runtest_makereport(item, call):
         screenshot_path = os.path.join(SCREENSHOTS_PATH, f'{item.nodeid.replace("::", "_")}.png')
         try:
             page.screenshot(path=screenshot_path)
-            allure.attach.file(screenshot_path, name='screenshot', attachment_type=allure.attachment_type.PNG)
+            add_screenshot(screenshot_path)
         except AttributeError:
             pass
+
+
+def add_screenshot(screenshot_path):
+    with open(screenshot_path, 'rb') as image:
+        allure.attach(image.read(), name="Screenshot", attachment_type=allure.attachment_type.PNG)

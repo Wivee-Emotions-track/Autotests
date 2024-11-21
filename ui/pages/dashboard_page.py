@@ -18,6 +18,8 @@ class DashboardPage(BasePage):
     profile_label = '.ant-avatar'
     dashboard_title = 'header .ant-typography'
     loader_label = '.ant-spin-dot'
+    cell = '.ant-table-cell'
+    table_row = '.ant-table-row'
 
     # links to pages
     alert_msg = "**/alert-messages"

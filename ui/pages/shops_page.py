@@ -1,3 +1,5 @@
+import time
+
 import allure
 
 from ui.pages.dashboard_page import DashboardPage
@@ -50,3 +52,18 @@ class ShopsPage(DashboardPage):
         if location:
             assert self.get_elements(self.table_row, contains_text=location), \
                 f'Row with location {location} is not displayed'
+
+    @allure.step("Check table cells is not empty")
+    def check_table_is_not_empty(self, shops):
+        self.check_presence(self.table_row)
+        time.sleep(2)  # todo
+        for shop_name in shops:
+            row = self.get_elements(self.table_row, contains_text=shop_name)
+            cells = self.get_childs_element(row, self.cell)[:-1]
+            for cell in cells:
+                print(cell.text_content())
+                assert cell.text_content() != '', f'No data for shop {shop_name}'
+
+    def check_page_opened(self):
+        self.should_be(self.dashboard_title, contains_text="Shops")
+        self.check_presence(self.edit_shop_btn)

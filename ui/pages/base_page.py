@@ -20,7 +20,7 @@ class BasePage:
 
     def check_presence(self, locator: str, visible=True, timeout=None):
         if visible:
-            self.page.wait_for_selector(selector=locator, timeout=timeout)
+            self.page.wait_for_selector(selector=locator, timeout=timeout, state='visible')
         else:
             self.page.wait_for_selector(selector=locator, timeout=timeout, state='hidden')
 
@@ -78,6 +78,10 @@ class BasePage:
 
     def get_child_element(self, parent_element, child_locator):
         child_element = parent_element.locator(child_locator)
+        return child_element
+
+    def get_childs_element(self, parent_element, child_locator):
+        child_element = parent_element.locator(child_locator).all()
         return child_element
 
     def should_be(self, locator, contains_text='', input=False):
