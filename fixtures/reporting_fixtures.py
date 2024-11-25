@@ -1,8 +1,10 @@
 import os
+import re
 import shutil
 
 import allure
 import pytest
+from playwright._impl._errors import TargetClosedError
 
 from configs.project_paths import LOGS_PATH, SCREENSHOTS_PATH, ALLURE_RESULTS_PATH, CHROME_COOKIES_PATH
 
@@ -44,10 +46,11 @@ def pytest_runtest_makereport(item, call):
                     break
 
         screenshot_path = os.path.join(SCREENSHOTS_PATH, f'{item.nodeid.replace("::", "_")}.png')
+        clean_path = re.sub(r'[<>:"/\\|?*]', '_', screenshot_path)
         try:
             page.screenshot(path=screenshot_path)
             add_screenshot(screenshot_path)
-        except AttributeError:
+        except TargetClosedError:
             pass
 
 

@@ -1,7 +1,7 @@
 import pytest
 from playwright.sync_api import sync_playwright
 
-DEFAULT_HEADLESS = False
+DEFAULT_HEADLESS = True
 BROWSERS = {
     "chromium": ["latest"]
     # "firefox": ["latest"],
@@ -51,5 +51,5 @@ def page(browser):
         document.documentElement.requestFullscreen();
     """)
     yield page
-    # page.close()
+    page.close()
     context.close()

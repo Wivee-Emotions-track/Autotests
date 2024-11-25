@@ -1,5 +1,6 @@
 import pytest
 
+from api.devices.devices_api import DevicesApi
 from api.shops_api.shops_api import ShopsApi
 from api.shops_api.users_api import UsersApi
 from api.token_api.token_api_actions import TokenApiActions
@@ -17,3 +18,9 @@ def fixture_token_api():
 @pytest.fixture()
 def fixture_users_api():
     return UsersApi()
+
+
+@pytest.fixture()
+def fixture_devices_api():
+    return DevicesApi()
+

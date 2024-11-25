@@ -4,16 +4,9 @@ from ui.pages.dashboard_page import DashboardPage
 
 
 @allure.title("Test dashboard pages")
-def test_dashboard_pages(page):
-    username = "testing_admin@wayvee.com"
-    password = "kz767ErQ9DvNXHuo1afB"
+def test_dashboard_pages(page, login):
 
-    login_page = LoginPage(page)
     sidebar = DashboardPage(page)
-
-    login_page.open()
-    login_page.login(username, password)
-
     sidebar.open_shops_page()
     sidebar.open_analytics_page()
     sidebar.open_api_page()
