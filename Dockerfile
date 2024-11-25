@@ -1,51 +1,53 @@
-FROM python:3.11-slim
+# Use the official Playwright image from the Docker Hub
+FROM mcr.microsoft.com/playwright/python:v1.44.0-jammy
 
-# Set environment variable to disable Python output buffering
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    curl \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    libgbm1 \
-    libgtk-3-0 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libxshmfence1 \
-    libxrandr-dev \
-    libxkbcommon0 \
-    libx11-xcb1\
-    tk \
-    python3-tk \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN curl -fsSL https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_linux_amd64  \
-    -o /usr/local/bin/allurectl \
-    && chmod +x /usr/local/bin/allurectl
-
+# Set work directory
 WORKDIR /app
 
-RUN pip install poetry
+# Install Python dependencies directly
+RUN pip install --no-cache-dir \
+    aspose-words==23.12.0 \
+    attrdict==2.0.1 \
+    Faker==5.0.1 \
+    gmaily==0.0.3 \
+    jsonpath-ng==1.6.0 \
+    jsonpickle==2.0.0 \
+    pylint==3.0.3 \
+    pytest-order==1.2.0 \
+    pytest-rerunfailures==12.0 \
+    pytest-xdist==3.5.0 \
+    pytest_check==2.2.2 \
+    pytest==6.2.5 \
+    python-dotenv==1.0.0 \
+    request-boost==0.8 \
+    requests==2.31.0 \
+    requests-toolbelt==1.0.0 \
+    wrapt \
+    deepdiff \
+    antigate \
+    playwright \
+    pyyaml \
+    trcli \
+    elasticsearch \
+    pyperclip \
+    allure-pytest \
+    psycopg2-binary
 
-COPY pyproject.toml ./
+# Install Allure
+#RUN apt-get update && apt-get install -y \
+#    openjdk-11-jre && \
+#    wget -qO- https://github.com/allure-framework/allure2/releases/download/2.20.1/allure-2.20.1.tgz | tar -xz -C /opt/ && \
+#    ln -s /opt/allure-2.20.1/bin/allure /usr/bin/allure
 
-# Install Poetry without venv
-RUN poetry config virtualenvs.create false \
-  && poetry install $(test "$WORK_ENV" == production && echo "--no-dev") --no-interaction --no-ansi --no-cache
-
-RUN playwright install
-
+# Copy the application code
 COPY . .
 
-# Give execution permission to the Bash script
-RUN chmod +x pytest_run.sh
+# Make the directory for Allure results accessible
+VOLUME ["/app/allure-results"]
 
-# Command to execute the script
-CMD ["bash", "pytest_run.sh"]
+# Define the command to run your tests and generate Allure results
+CMD ["pytest", "--alluredir=/app/allure-results"]
