@@ -16,6 +16,7 @@ class ExternalApi:
         response = requests.request("GET", url + "v1/shops", headers=headers, data=payload)
         if check_response:
             self.check_response(response)
+        return response
 
     def check_response(self, response):
         response_info = f'URL: {response.url}\n' \

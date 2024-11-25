@@ -1,5 +1,5 @@
 # Use the official Playwright image from the Docker Hub
-FROM mcr.microsoft.com/playwright/python:v1.44.0-jammy
+FROM mcr.microsoft.com/playwright/python:v1.49.0-jammy
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
@@ -47,7 +47,7 @@ RUN pip install --no-cache-dir \
 COPY . .
 
 # Make the directory for Allure results accessible
-VOLUME ["/app/allure-results"]
+VOLUME ["/reports/allure-results"]
 
 # Define the command to run your tests and generate Allure results
-CMD ["pytest", "--alluredir=/app/allure-results"]
+CMD ["pytest", "--alluredir=/reports/allure-results"]

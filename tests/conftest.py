@@ -10,6 +10,7 @@ from log import logger
 pytest_plugins = [
     'fixtures.playwrite_fixtures',
     'fixtures.reporting_fixtures',
+    'fixtures.allure_fixtures',
 
     'fixtures.extension_ui_fixtures',
 
@@ -27,16 +28,16 @@ def pytest_addoption(parser):
     """
     parser.addoption("--env", action="store", default="dev", help="Environment to run tests against")
 
-@pytest.fixture(scope="session", autouse=True)
-def load_environment(request):
-    """
-        Fixture loads environment variables before running tests.
-    """
-    env_file = os.path.join(ROOT_DIR_PATH, '.env')
-    if os.path.exists(env_file):
-        load_dotenv(env_file)
-    else:
-        logger.error(f'Cannot find .env environment file: %s', env_file)
+# @pytest.fixture(scope="session", autouse=True)
+# def load_environment(request):
+#     """
+#         Fixture loads environment variables before running tests.
+#     """
+#     env_file = os.path.join(ROOT_DIR_PATH, '.env')
+#     if os.path.exists(env_file):
+#         load_dotenv(env_file)
+#     else:
+#         logger.error(f'Cannot find .env environment file: %s', env_file)
 
 def pytest_generate_tests(metafunc):
     data = load_test_data(metafunc.definition)

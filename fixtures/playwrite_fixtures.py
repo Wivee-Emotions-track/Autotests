@@ -1,5 +1,11 @@
+import os
+import re
+
+import allure
 import pytest
 from playwright.sync_api import sync_playwright
+
+from configs.project_paths import SCREENSHOTS_PATH
 
 DEFAULT_HEADLESS = True
 BROWSERS = {
@@ -42,8 +48,8 @@ def browser(playwright, browser_config):
 
 
 @pytest.fixture(scope='function')
-def page(browser):
-    context = browser.new_context(viewport={"width": 1920, "height": 900},device_scale_factor=1)
+def page(browser, request, fixture_additional_test_item_info):
+    context = browser.new_context(viewport={"width": 1920, "height": 900}, device_scale_factor=1)
     # context = browser.new_context()
 
     page = context.new_page()
@@ -51,5 +57,20 @@ def page(browser):
         document.documentElement.requestFullscreen();
     """)
     yield page
+
+    screenshot_path = os.path.join(SCREENSHOTS_PATH, f'{request.config.args[0].replace("::", "_")}.png')
+    clean_path = re.sub(r'[<>"|?*]', '_', screenshot_path)
+    fixture_additional_test_item_info.screenshot_path = clean_path
+    try:
+        page.screenshot(path=clean_path)
+        add_screenshot(clean_path)
+    except TimeoutError:
+        pass
+
     page.close()
     context.close()
+
+
+def add_screenshot(screenshot_path):
+    with open(screenshot_path, 'rb') as image:
+        allure.attach(image.read(), name="Screenshot", attachment_type=allure.attachment_type.PNG)
