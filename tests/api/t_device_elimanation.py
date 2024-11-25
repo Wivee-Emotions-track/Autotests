@@ -17,7 +17,8 @@ def setup(page):
 
 
 @allure.title("Delete device via id")
-def test_delete_device_via_id():
+def test_delete_device_via_id(fixture_devices_api):
+    fixture_devices_api.add_device()
     # URL-адрес вашего GraphQL сервера
     url = "https://app-staging.wayvee.com/graphql"
 
@@ -26,7 +27,7 @@ def test_delete_device_via_id():
     password = "Qwerty_0000"
 
     # ID устройства, которое нужно удалить
-    device_id = "277"
+    device_id = "294"
 
     # 1. Аутентификация для получения токена сессии
     auth_query = """
@@ -89,3 +90,10 @@ def test_delete_device_via_id():
         print("Устройство успешно удалено:", deleted_device)
     else:
         print("Ошибка при удалении устройства:", delete_device_response.json())
+
+
+payload = {"operationName":
+               "ListShops","variables":
+    {"pageInput":{"page":3,"perPage":10}},
+           "query":"query ListShops($userId: ID, $pageInput: PageInput) {\n  shops(pageInput: $pageInput, userId: $userId) {\n    nodes {\n      id\n      name\n      location\n      industry\n      traffic\n      openHours\n      openHoursWeekend\n      timeZone\n      createdAt\n      status\n      planUrl\n      __typename\n    }\n    page {\n      page\n      perPage\n      totalItems\n      __typename\n    }\n    __typename\n  }\n}"}
+
