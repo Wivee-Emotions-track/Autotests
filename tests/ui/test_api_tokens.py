@@ -14,7 +14,7 @@ def create_token(fixture_token_api):
     token_name = f'AutotestToken_{datetime.utcnow().strftime("%d_%m_%H_%M")}'
     token_id = fixture_token_api.create_token(token_name)
     yield token_name
-    fixture_token_api.revoke_token(token_id)
+    fixture_token_api.revoke_token(token_id, check_response=False)
 
 
 @pytest.fixture()

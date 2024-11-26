@@ -91,4 +91,3 @@ def test_search_shop_via_location(page, create_shop, login):
     shops_page = ShopsPage(page)
     shops_page.search_shop_via_location('Poland')
     shops_page.check_search_result(shop_name, 'Poland')
-

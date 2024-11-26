@@ -15,3 +15,6 @@ UI_RESOURCES_PATH = os.path.join(RESOURCES_PATH, 'ui')
 TEST_DATA_PATH = os.path.join(RESOURCES_PATH, 'test_data')
 
 CHROME_COOKIES_PATH = os.path.join(UI_RESOURCES_PATH, 'chrome_cookies.json')
+
+USERNAME = "dmitrijdmtirij@gmail.com"
+PASSWORD = "Qwerty_0000"

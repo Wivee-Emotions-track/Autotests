@@ -55,8 +55,9 @@ class DashboardPage(BasePage):
 
     @allure.step("Go to api page")
     def open_api_page(self):
+        time.sleep(2)
         self.click(self.api_btn)
-        self.page.wait_for_url("**/tokens")
+        self.page.wait_for_url("**/tokens", timeout=10000)
 
     def open_users_page(self, section: str, url):
         self.click(self.users_btn)
@@ -70,9 +71,8 @@ class DashboardPage(BasePage):
 
     @allure.step("Check that we were logged in")
     def check_logged_in(self):
-        if not self.page.is_visible(self.profile_label):
-            assert self.page.is_visible(self.profile_label), \
-                'Failed to log in with valid username and password'
+        assert self.page.is_visible(self.profile_label, timeout=5), \
+            'Failed to log in with valid username and password'
 
     @allure.step("select time in time input")
     def select_time(self, start_time_input_locator, end_time_input_locator, apply=False):

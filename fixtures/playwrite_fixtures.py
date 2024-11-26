@@ -8,6 +8,7 @@ from playwright.sync_api import sync_playwright
 from configs.project_paths import SCREENSHOTS_PATH
 
 DEFAULT_HEADLESS = True
+DEFAULT_TIMEOUT = 5
 BROWSERS = {
     "chromium": ["latest"]
     # "firefox": ["latest"],
@@ -29,13 +30,13 @@ def playwright():
         yield p
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def browser(playwright, browser_config):
     browser_name, browser_version = browser_config
     browser_type = getattr(playwright, browser_name)
 
     if browser_version == 'latest':
-        browser = browser_type.launch(headless=DEFAULT_HEADLESS, args=["--start-fullscreen"])
+        browser = browser_type.launch(headless=DEFAULT_HEADLESS, args=["--start-maximized"])
 
     else:
         executable_path = f'/path/to/{browser_name}-{browser_version}'
@@ -49,8 +50,11 @@ def browser(playwright, browser_config):
 
 @pytest.fixture(scope='function')
 def page(browser, request, fixture_additional_test_item_info):
-    context = browser.new_context(viewport={"width": 1920, "height": 900}, device_scale_factor=1)
+    # context = browser.new_context(viewport={"width": 1920, "height": 900}, device_scale_factor=1)
     # context = browser.new_context()
+    context = browser.new_context(no_viewport=True,
+                                  viewport={"width": 1920, "height": 1080},
+                                  )
 
     page = context.new_page()
     page.evaluate("""

@@ -40,7 +40,7 @@ class TokenApi(BaseAPI):
         return response.json()['data']['createApiToken']['id']
 
     @allure.step("revoke token via api")
-    def revoke_token(self, token_id):
+    def revoke_token(self, token_id, check_response=True):
 
         query = """
             mutation RevokeToken($id: ID!) {
@@ -68,8 +68,11 @@ class TokenApi(BaseAPI):
             "query": query,
             "variables": variables
         }
-
-        self.post(url=self.url, json=payload)
+        if not check_response:
+            try:
+                self.post(url=self.url, json=payload)
+            except self.APIException:
+                pass
 
     def get_token_list(self, user_id="47"):
         query = """

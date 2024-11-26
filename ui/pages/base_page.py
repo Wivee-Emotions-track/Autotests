@@ -14,9 +14,8 @@ class BasePage:
 
     def open(self, url=None) -> None:
         if url:
-            self.page.goto(url)
-        else:
-            self.page.goto(self.url)
+            self.url = url
+        self.page.goto(self.url)
 
     def check_presence(self, locator: str, visible=True, timeout=None):
         if visible:
