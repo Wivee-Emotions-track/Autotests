@@ -2,8 +2,13 @@ poetry.lock
 docker-compose.yaml
 pytest_run.sh
 .env
-
 /venv/
 /envs/
-/reports/
 .idea
+**/__pycache__/**
+**/.idea/**
+/temp/**
+*.orig
+**/.tox/**
+.gitignore
+allure-results
