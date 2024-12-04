@@ -74,7 +74,7 @@ class TokenApi(BaseAPI):
             except self.APIException:
                 pass
 
-    def get_token_list(self, user_id="47"):
+    def get_token_list(self, user_id="128"):
         query = """
             query tokensList($userId: ID) {
                 apiTokens(userId: $userId) {

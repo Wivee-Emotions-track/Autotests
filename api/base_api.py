@@ -14,7 +14,7 @@ class BaseAPI:
         # self.config = config
         self.logger = logging.getLogger("TestLogger")
 
-        self.url = "https://app-staging.wayvee.com/graphql"
+        self.url = "https://app-staging1.wayvee.com/graphql"
         self.login = 'dmitrijdmtirij@gmail.com'
         self.password = 'Qwerty_0000'
         self.session = requests.Session()
