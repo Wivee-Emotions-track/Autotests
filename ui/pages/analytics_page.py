@@ -57,7 +57,7 @@ class AnalyticsPage(DashboardPage):
     download_btn = '[type="submit"]'
     download_form = '.ant-modal-content'
 
-    @allure.step("open_chart")
+    @allure.step("open_chart_and_check")
     def open_graphics(self):
         self.click(self.graphics_btn)
         self.check_presence(self.chart_label)
@@ -65,12 +65,12 @@ class AnalyticsPage(DashboardPage):
     def check_page_opened(self):
         self.check_presence(self.cell)
 
-    @allure.step("open_table")
+    @allure.step("open_table_and_check")
     def open_table(self):
         self.click(self.table_btn)
         self.check_presence(self.cell)
 
-    @allure.step("open_settings")
+    @allure.step("open_settings_and_check")
     def open_settings(self):
         self.click(self.settings_btn)
         self.check_presence(self.settings_form)

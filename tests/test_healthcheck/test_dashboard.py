@@ -56,12 +56,12 @@ def test_check_analytics_export_file(page, remove_download_files, compare, from_
     os.makedirs(download_dir, exist_ok=True)
 
     # Generate the expected filename based on the parameters
-    downloaded_file_path = os.path.join(os.getcwd(), 'tests', 'ui', download_dir, expected_filename)
+    downloaded_file_path = os.path.join(os.getcwd(), download_dir, expected_filename)
     download.save_as(downloaded_file_path)
 
     # Assuming the file is downloaded to the specified directory
     # expected_file = f"csv_examples/{expected_filename}"  # Path to your expected CSV file
-    expected_file = os.path.join(os.getcwd(), 'tests', 'ui', 'csv_examples', expected_filename) # Path to your expected CSV file
+    expected_file = os.path.join(os.getcwd(), 'tests', 'test_healthcheck', 'csv_examples', expected_filename)  # Path to your expected CSV file
 
     assert os.path.exists(downloaded_file_path), "CSV file was not downloaded."
 

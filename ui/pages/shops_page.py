@@ -15,6 +15,7 @@ class ShopsPage(DashboardPage):
     table_row = '.ant-table-row'
     edit_shop_btn = '.ant-table-cell .ant-btn'
     shop_in_table_item = '.ant-table-row .ant-space-item .ant-typography'
+    next_page_btn = '.ant-pagination-next'
 
     @allure.step("add shop")
     def add_shop(self):
@@ -46,6 +47,10 @@ class ShopsPage(DashboardPage):
         self.get_elements(self.shop_in_table_item, contains_text=shop_name).click()
 
     def check_search_result(self, shop_name='', location=''):
+        for page in range(10):
+            self.click(self.next_page_btn)
+            if self.get_elements(self.table_row):
+                break
         if shop_name:
             assert self.get_elements(self.table_row, contains_text=shop_name), \
                 f'Row with shop {shop_name} is not displayed'

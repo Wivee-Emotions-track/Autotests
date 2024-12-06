@@ -36,9 +36,11 @@ class BasePage:
         if press_enter:
             self.page.press(locator, "Enter")
 
-    def get_text(self, locator: str, input=False, index=0, timeout=None) -> str:
+    def get_text(self, locator: str, input=False, attribute='', index=0, timeout=None) -> str:
         if input:
             return self.page.locator(locator).nth(index).input_value(timeout=timeout)
+        if attribute:
+            return self.page.locator(locator).nth(index).get_attribute(attribute)
         return self.page.locator(locator).nth(index).text_content(timeout=timeout)
 
     def get_url(self) -> str:
