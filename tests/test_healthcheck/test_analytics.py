@@ -8,25 +8,13 @@ from ui.pages.analytics_page import AnalyticsPage
 
 
 @pytest.fixture(scope="function")
-def login_with_date(page):
-    username = "dmitrijdmtirij@gmail.com"
-    password = "Qwerty_0000"
+def login_with_date(page, get_config):
+    username = get_config['credentials']['super_user']['login']
+    password = get_config['credentials']['super_user']['password']
 
-    login_page = LoginPage(page)
-    url_with_date_filters = login_page.url + '/analytics?zones=&shops=&from=2024-08-13&to=2024-11-11'
+    login_page = LoginPage(page, get_config['urls']['host'])
+    url_with_date_filters = login_page.url + '/analytics?zones=&shops=&from=2023-08-13&to=2024-11-11'
     login_page.open(url_with_date_filters)
-    login_page.login(username, password)
-    analytics_page = AnalyticsPage(page)
-    analytics_page.check_page_opened()
-
-
-@pytest.fixture(scope="function")
-def login(page):
-    username = "dmitrijdmtirij@gmail.com"
-    password = "Qwerty_0000"
-
-    login_page = LoginPage(page)
-    login_page.open()
     login_page.login(username, password)
     analytics_page = AnalyticsPage(page)
     analytics_page.check_page_opened()
@@ -81,6 +69,7 @@ def test_edit_table(page, login_with_date):
 def test_date_filter(page, login):
 
     analytics_page = AnalyticsPage(page)
+    analytics_page.check_page_opened()
     analytics_page.select_days_ago_in_filter('Last 90 Days')
     analytics_page.check_date_in_filter(days_ago=90)
 

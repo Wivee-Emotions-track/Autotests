@@ -3,6 +3,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
+from configs.config import get_env_configs, get_env
 from configs.project_paths import ROOT_DIR_PATH, ALLURE_RESULTS_PATH
 from helpers.test_data_helper import load_test_data
 from log import logger
@@ -55,3 +56,14 @@ def pytest_generate_tests(metafunc):
             ",".join(keys),
             [tuple(item[key] for key in keys) for item in processed_data]
         )
+
+
+@pytest.fixture(scope="session", autouse=True)
+def get_config(env):
+    config_dict = get_env_configs(env)
+    return config_dict
+
+
+@pytest.fixture(name="env", scope="session")
+def get_environment():
+    return get_env()

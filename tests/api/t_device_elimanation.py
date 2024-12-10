@@ -8,10 +8,10 @@ from ui.pages.analytics_page import AnalyticsPage
 
 
 @pytest.fixture(scope="function")
-def setup(page):
+def setup(page, get_config):
     username = "testing_admin@wayvee.com"
     password = "kz767ErQ9DvNXHuo1afB"
-    login_page = LoginPage(page)
+    login_page = LoginPage(page, get_config['urls']['host'])
     login_page.open()
     login_page.login(username, password)
 

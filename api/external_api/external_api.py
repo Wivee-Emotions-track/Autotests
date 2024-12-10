@@ -1,9 +1,10 @@
 import requests
 
-url = "https://api-staging1.wayvee.com/"
-
 
 class ExternalApi:
+    def __init__(self, url):
+
+        self.url = url
 
     def get_shops_list(self, token, check_response=True):
 
@@ -13,7 +14,7 @@ class ExternalApi:
           'Authorization': f'Bearer {token}'
         }
 
-        response = requests.request("GET", url + "v1/shops", headers=headers, data=payload)
+        response = requests.request("GET", self.url + "v1/shops", headers=headers, data=payload)
         if check_response:
             self.check_response(response)
         return response
