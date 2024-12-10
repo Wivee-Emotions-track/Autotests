@@ -8,8 +8,8 @@ from ui.pages.login_page import LoginPage
 from configs.config import get_env_configs, get_env
 
 
-correct_login = get_env_configs(get_env)['credentials']['admin']['login']
-correct_password = get_env_configs(get_env)['credentials']['admin']['password']
+correct_login = get_env_configs(get_env())['credentials']['admin']['login']
+correct_password = get_env_configs(get_env())['credentials']['admin']['password']
 
 
 @pytest.mark.parametrize("username, password, valid", [

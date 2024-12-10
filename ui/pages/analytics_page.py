@@ -63,7 +63,7 @@ class AnalyticsPage(DashboardPage):
         self.check_presence(self.chart_label)
 
     def check_page_opened(self):
-        self.check_presence(self.cell)
+        self.check_presence(self.export_btn)
 
     @allure.step("open_table_and_check")
     def open_table(self):
@@ -118,7 +118,7 @@ class AnalyticsPage(DashboardPage):
 
     @allure.step("select days ago param in filter")
     def select_days_ago_in_filter(self, days_ago: str):
-        self.check_presence(self.cell)
+        self.check_page_opened()
         self.click(self.start_date_input)
         self.check_presence(self.filter_days_ago)
         self.get_elements(self.filter_days_ago, contains_text=days_ago).click()

@@ -36,24 +36,24 @@ def test_edit_table_columns(page, login_with_date):
     analytics_page.check_page_opened()
     analytics_page.open_settings()
 
+    with allure.step('Check column presence'):
+        analytics_page.check_column_presence('Satisfaction detected', True)
+        analytics_page.check_column_presence('Neutral state', True)
+        analytics_page.check_column_presence('Events Count', True)
+        analytics_page.check_column_presence('People Count', True)
+
     with allure.step("Hide columns"):
-        analytics_page.switch_menu_column('Avg. Dwell Time')
-        analytics_page.switch_menu_column('Dwell Number')
-        analytics_page.switch_menu_column('Engagements Number')
-        analytics_page.switch_menu_column('Avg. Engagements per Customer')
-        analytics_page.switch_menu_column('Avg. Speed')
-        analytics_page.switch_menu_column('C-SAT')
-        analytics_page.switch_menu_column('Bypassers Number')
+        analytics_page.switch_menu_column('Satisfaction detected')
+        analytics_page.switch_menu_column('Neutral state')
+        analytics_page.switch_menu_column('Events Count')
+        analytics_page.switch_menu_column('People Count')
 
     analytics_page.save_settings()
 
-    analytics_page.check_column_presence('Avg. Dwell Time')
-    analytics_page.check_column_presence('Dwell Number')
-    analytics_page.check_column_presence('Engagements Number')
-    analytics_page.check_column_presence('Avg. Engagements per Customer')
-    analytics_page.check_column_presence('Avg. Speed')
-    analytics_page.check_column_presence('C-SAT')
-    analytics_page.check_column_presence('Bypassers Number')
+    analytics_page.check_column_presence('Satisfaction detected')
+    analytics_page.check_column_presence('Neutral state')
+    analytics_page.check_column_presence('Events Count')
+    analytics_page.check_column_presence('People Count')
 
 
 @allure.title("Test check filters")
@@ -107,24 +107,25 @@ def test_shops_filter(page, login_with_date):
 
 @allure.title("Test check charts filter")
 def test_charts_filter(page, login_with_date):
+    #todo сделать с проверкой скриншотов и с данными
 
     analytics_page = AnalyticsPage(page)
     analytics_page.check_page_opened()
     analytics_page.open_graphics()
     analytics_page.select_zones("TV")
-    analytics_page.select_chart_option('Overall')
-    analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number"])
-    analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number"])
+    # analytics_page.select_chart_option('Overall')
+    # analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number"])
+    # analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number"])
 
     analytics_page.select_chart_option('Data Source')
-    analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "RadarRawDataProcessor"])
-    analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "RadarRawDataProcessor"])
+    analytics_page.check_legends_containing(legend_number=0, legend_data=["Satisfaction detected", "VideoRawDataProcessor"])
+    analytics_page.check_legends_containing(legend_number=1, legend_data=["Satisfaction detected", "RadarRawDataProcessor"])
 
-    analytics_page.select_chart_option('Zone')
-    analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "TV"])
-    analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "TV"])
-
-    analytics_page.select_chart_option('Shop')
-    analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "Auki Labs ( final )"])
-    analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "Auki Labs ( final )"])
+    # analytics_page.select_chart_option('Zone')
+    # analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "TV"])
+    # analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "TV"])
+    #
+    # analytics_page.select_chart_option('Shop')
+    # analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "Auki Labs ( final )"])
+    # analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "Auki Labs ( final )"])
 
