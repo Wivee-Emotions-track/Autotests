@@ -40,22 +40,33 @@ def pytest_addoption(parser):
 #     else:
 #         logger.error(f'Cannot find .env environment file: %s', env_file)
 
-def pytest_generate_tests(metafunc):
-    data = load_test_data(metafunc.definition)
+# def pytest_generate_tests(metafunc):
+#     data = load_test_data(metafunc.definition)
+#
+#     if data:
+#         keys = data[0].keys()
+#
+#         processed_data = [
+#             {key: (value[0] if isinstance(value, list) and len(value) == 1 else value)
+#              for key, value in item.items()}
+#             for item in data
+#         ]
+#
+#         metafunc.parametrize(
+#             ",".join(keys),
+#             [tuple(item[key] for key in keys) for item in processed_data]
+#         )
 
-    if data:
-        keys = data[0].keys()
 
-        processed_data = [
-            {key: (value[0] if isinstance(value, list) and len(value) == 1 else value)
-             for key, value in item.items()}
-            for item in data
-        ]
+def pytest_collection_modifyitems(config, items):
+    healthcheck = os.getenv("HEALTHCHECK", "False").lower() == "true"
+    if healthcheck:
+        selected_items = [item for item in items if "test_healthcheck" in str(item.fspath)]
+        deselected_items = [item for item in items if item not in selected_items]
 
-        metafunc.parametrize(
-            ",".join(keys),
-            [tuple(item[key] for key in keys) for item in processed_data]
-        )
+        if deselected_items:
+            config.hook.pytest_deselected(items=deselected_items)
+        items[:] = selected_items
 
 
 @pytest.fixture(scope="session", autouse=True)
