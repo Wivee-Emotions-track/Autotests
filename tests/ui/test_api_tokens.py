@@ -27,7 +27,7 @@ def find_and_revoke_token(fixture_token_api):
 
 
 @allure.title("Test add token")
-def test_add_token(page, login, find_and_revoke_token):
+def test_add_token(page, login, find_and_revoke_token, get_config):
     token_name = find_and_revoke_token
 
     sidebar = DashboardPage(page)
@@ -38,12 +38,12 @@ def test_add_token(page, login, find_and_revoke_token):
     token_page.add_token(token_name)
     token = token_page.get_created_token(token_name)
 
-    ext_api = ExternalApi()
+    ext_api = ExternalApi(get_config['urls']['external'])
     ext_api.get_shops_list(token)
 
 
 @allure.title("Test revoke token")
-def test_revoke_token(create_token, page, login):
+def test_revoke_token(create_token, page, login, get_config):
     token_name = create_token
 
     sidebar = DashboardPage(page)
@@ -55,6 +55,6 @@ def test_revoke_token(create_token, page, login):
 
     token_page.revoke_token(token_name)
 
-    ext_api = ExternalApi()
+    ext_api = ExternalApi(get_config['urls']['external'])
     response = ext_api.get_shops_list(token, check_response=False)
     assert not response.ok, 'Token is not revoked'

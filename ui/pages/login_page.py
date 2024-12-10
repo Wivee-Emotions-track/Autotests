@@ -1,16 +1,14 @@
 import allure
 from playwright.sync_api import Page
 
-from configs.config import BASE_URL
 from ui.locators.login_page_locators import LoginPageLocators
 from ui.pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
 
-    def __init__(self, page: Page):
-        super().__init__(page,
-                         url=BASE_URL)
+    def __init__(self, page: Page, url):
+        super().__init__(page, url=url)
 
     username_input = '[id="normal_login_username"]'
     password_input = '[id="normal_login_password"]'

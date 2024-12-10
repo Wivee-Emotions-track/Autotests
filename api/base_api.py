@@ -1,7 +1,8 @@
 import logging
 import time
-import json
 import requests
+
+from configs.config import get_env_configs, get_env
 
 
 class BaseAPI:
@@ -10,13 +11,12 @@ class BaseAPI:
     __EXCEPTION_LIST = []
 
     def __init__(self):
-        # self.config = get_env_configs(env)
-        # self.config = config
         self.logger = logging.getLogger("TestLogger")
+        self.config = get_env_configs(get_env())
 
-        self.url = "https://app-staging1.wayvee.com/graphql"
-        self.login = 'dmitrijdmtirij@gmail.com'
-        self.password = 'Qwerty_0000'
+        self.url = self.config['urls']['host'] + "graphql"
+        self.login = self.config['credentials']['super_user']['login']
+        self.password = self.config['credentials']['super_user']['password']
         self.session = requests.Session()
         self.session.headers = \
             {'Content-Type': 'application/json',

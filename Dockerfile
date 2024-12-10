@@ -35,7 +35,8 @@ RUN pip install --no-cache-dir \
     elasticsearch \
     pyperclip \
     allure-pytest \
-    psycopg2-binary
+    psycopg2-binary \
+    opencv-python
 
 # Install Allure
 #RUN apt-get update && apt-get install -y \

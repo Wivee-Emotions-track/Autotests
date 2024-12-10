@@ -20,7 +20,7 @@ def create_user(fixture_users_api):
 
 
 @allure.title("Test add user")
-def test_add_user(page, login):
+def test_add_user(page, login, get_config):
     user_mail = "testmail@gmail.com"
     password = "Qwerty_0000"
     users_page = UsersPage(page)
@@ -33,7 +33,7 @@ def test_add_user(page, login):
     invite_user_page.set_password(password)
     invite_user_page.go_to_sigh_in_page()
 
-    login_page = LoginPage(page)
+    login_page = LoginPage(page, get_config['urls']['host'])
     login_page.login(user_mail, password)
 
     analytics_page = AnalyticsPage(page)

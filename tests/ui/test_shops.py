@@ -6,7 +6,6 @@ from os import path
 import allure
 import pytest
 
-from configs.config import BASE_URL
 from configs.project_paths import SCREENSHOTS_PATH
 from helpers.images_compare import compare_image, get_coordinates_of_found_element
 from ui.pages.activate_sensor_page import ActivateSensorPage
@@ -46,7 +45,7 @@ def create_shop_via_ui(page, login):
 
 
 @allure.title("Test shop setup")
-def test_shop_setup(page, login):
+def test_shop_setup(page, login, get_config):
 
     path_to_reference = path.join(path.dirname(__file__), 'test_data', 'canvas_screenshot.PNG')
     shop_name = f'AutotestShop_{datetime.utcnow().strftime("%d_%m_%H_%M_%S")}'
@@ -110,11 +109,11 @@ def test_edit_shop_zone(page, create_shop_via_ui):
 
 
 @allure.title("Test add sensor to shop")
-def test_add_sensor_to_shop(page, create_shop_via_ui):
+def test_add_sensor_to_shop(page, create_shop_via_ui, get_config):
 
     shop_name = create_shop_via_ui
     shops_page = ShopsPage(page)
-    shops_page.open(BASE_URL+'/activate-sensor/d8:3a:dd:c3:60:56')
+    shops_page.open(get_config['host']['url']+'/activate-sensor/d8:3a:dd:c3:60:56')
     activate_sensor_page = ActivateSensorPage(page)
     activate_sensor_page.add_sensor()
     activate_sensor_page.upload_sensor_photo(path.join(path.dirname(__file__), 'test_data', 'sensor_photo.PNG'))
