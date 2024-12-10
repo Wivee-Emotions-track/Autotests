@@ -28,13 +28,15 @@ def remove_download_files():
         (3, "2024-06-10", "2024-06-15", None, False, "shop_id", "21:00", "23:00", None),
         (3, "2024-06-10", "2024-06-15", None, False, "shop_id", "21:00", "23:00", "engagements_per_customer,csat_avg"),
     ])
-def test_check_analytics_export_file(page, remove_download_files, compare, from_date, to_date,
+def test_check_analytics_export_file(page, get_config, remove_download_files, compare, from_date, to_date,
                                      compareShift, dataSource, splitBy, timeFrom, timeTo,
                                      selectedMetrics):
-
-    login_page = LoginPage(page)
-    analytics_page = AnalyticsPage(page)
+    username = get_config['credentials']['admin']['login']
+    password = get_config['credentials']['admin']['password']
     base_url = "https://app.wayvee.com/analytics"
+
+    login_page = LoginPage(page, get_config['urls']['host'])
+    analytics_page = AnalyticsPage(page)
 
     url, params = get_url_with_filter(base_url, compare, from_date, to_date,
                                       compareShift, dataSource, splitBy,
@@ -42,7 +44,7 @@ def test_check_analytics_export_file(page, remove_download_files, compare, from_
 
     login_page.open(url)
 
-    login_page.login("testing_admin@wayvee.com", 'kz767ErQ9DvNXHuo1afB')
+    login_page.login(username, password)
     time.sleep(5)
     expected_filename = generate_filename(params)
 
@@ -52,7 +54,6 @@ def test_check_analytics_export_file(page, remove_download_files, compare, from_
 
     # Save the downloaded file to the specified directory
     download_dir = "csv_downloads"
-    print(os.getcwd())
     os.makedirs(download_dir, exist_ok=True)
 
     # Generate the expected filename based on the parameters
@@ -60,8 +61,8 @@ def test_check_analytics_export_file(page, remove_download_files, compare, from_
     download.save_as(downloaded_file_path)
 
     # Assuming the file is downloaded to the specified directory
-    # expected_file = f"csv_examples/{expected_filename}"  # Path to your expected CSV file
-    expected_file = os.path.join(os.getcwd(), 'tests', 'test_healthcheck', 'csv_examples', expected_filename)  # Path to your expected CSV file
+    root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+    expected_file = os.path.join(root_dir, 'tests', 'test_healthcheck', 'csv_examples', expected_filename)
 
     assert os.path.exists(downloaded_file_path), "CSV file was not downloaded."
 
