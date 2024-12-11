@@ -113,19 +113,22 @@ def test_charts_filter(page, login_with_date):
     analytics_page.check_page_opened()
     analytics_page.open_graphics()
     analytics_page.select_zones("TV")
-    # analytics_page.select_chart_option('Overall')
-    # analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number"])
-    # analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number"])
+    analytics_page.add_chart_filter('Neutral state')
+    analytics_page.select_chart_option('Overall')
+    analytics_page.check_legends_containing(legend_number=0, legend_data=['Satisfaction detected'])
+    analytics_page.check_legends_containing(legend_number=1, legend_data=['Neutral state'])
 
     analytics_page.select_chart_option('Data Source')
     analytics_page.check_legends_containing(legend_number=0, legend_data=["Satisfaction detected", "VideoRawDataProcessor"])
-    analytics_page.check_legends_containing(legend_number=1, legend_data=["Satisfaction detected", "RadarRawDataProcessor"])
+    analytics_page.check_legends_containing(legend_number=1, legend_data=["Neutral state", "VideoRawDataProcessor"])
+    analytics_page.check_legends_containing(legend_number=2, legend_data=["Satisfaction detected", "RadarRawDataProcessor"])
+    analytics_page.check_legends_containing(legend_number=3, legend_data=["Neutral state", "RadarRawDataProcessor"])
 
-    # analytics_page.select_chart_option('Zone')
-    # analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "TV"])
-    # analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "TV"])
-    #
-    # analytics_page.select_chart_option('Shop')
-    # analytics_page.check_legends_containing(legend_number=0, legend_data=["Dwell Number", "Auki Labs ( final )"])
-    # analytics_page.check_legends_containing(legend_number=1, legend_data=["Bypassers Number", "Auki Labs ( final )"])
+    analytics_page.select_chart_option('Zone')
+    analytics_page.check_legends_containing(legend_number=0, legend_data=["Satisfaction detected", "TV"])
+    analytics_page.check_legends_containing(legend_number=1, legend_data=["Neutral state", "TV"])
+
+    analytics_page.select_chart_option('Shop')
+    analytics_page.check_legends_containing(legend_number=0, legend_data=["Satisfaction detected", "Auki Labs ( final )"])
+    analytics_page.check_legends_containing(legend_number=1, legend_data=["Neutral state", "Auki Labs ( final )"])
 

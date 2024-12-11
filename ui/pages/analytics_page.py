@@ -50,6 +50,7 @@ class AnalyticsPage(DashboardPage):
     first_filter = '(//div/span[contains(@class, "ant-select-selection-item")])[1]'
     second_filter = '(//div/span[contains(@class, "ant-select-selection-item")])[2]'
     chart_filter_items = '.ant-select-item'
+    chart_filter = '.ant-select-selection-item'
     legend_label = '//*[@class="legendtext"]'
     options_list_item = '.ant-segmented-item'
 
@@ -243,3 +244,7 @@ class AnalyticsPage(DashboardPage):
             cells = self.get_childs_element(row, self.cell)[1:]
             for cell in cells:
                 assert cell.text_content() != '', f'No data for shop {shop_name}'
+
+    def add_chart_filter(self, filter_name):
+        self.click(self.chart_filter)
+        self.get_elements(self.chart_filter_items, contains_text=filter_name).click()
