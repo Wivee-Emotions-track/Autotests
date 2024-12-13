@@ -38,12 +38,6 @@ RUN pip install --no-cache-dir \
     psycopg2-binary \
     opencv-python
 
-# Install Allure
-#RUN apt-get update && apt-get install -y \
-#    openjdk-11-jre && \
-#    wget -qO- https://github.com/allure-framework/allure2/releases/download/2.20.1/allure-2.20.1.tgz | tar -xz -C /opt/ && \
-#    ln -s /opt/allure-2.20.1/bin/allure /usr/bin/allure
-
 # Copy the application code
 COPY . .
 
