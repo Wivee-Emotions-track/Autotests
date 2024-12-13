@@ -88,6 +88,7 @@ This repository contains a Dockerized test environment using Playwright and Pyth
 - **ENV**: Specifies the environment configuration. Possible values are `prod`, `stage1`, `stage2`, `stage3`.
 
 - **HEALTHCHECK**: Enables or disables health checks. Possible values are `true` or `false`.
+  
 You can use these variables like -e Docker parameters or define them in a .env file.
 
 ## Notes
