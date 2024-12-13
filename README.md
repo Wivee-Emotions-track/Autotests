@@ -85,25 +85,9 @@ This repository contains a Dockerized test environment using Playwright and Pyth
 
 ## Environment Variables
 
-- **PYTHONUNBUFFERED**: Ensures logs are streamed in real-time.
-- **PIP\_NO\_CACHE\_DIR**: Disables caching to reduce image size.
+- **ENV**: Specifies the environment configuration. Possible values are `prod`, `stage1`, `stage2`, `stage3`.
 
-## Directory Structure
-
-```
-/
-|-- Dockerfile
-|-- tests/
-|-- reports/
-|-- test_healthcheck/
-|-- README.md
-```
-
-- **Dockerfile**: Contains the configuration to build the image.
-- **tests/**: Directory for your test files.
-- **test\_healthcheck/**: Directory for health check test files.
-- **reports/**: Directory for storing Allure test results.
-- **README.md**: Documentation for the project.
+- **HEALTHCHECK**: Enables or disables health checks. Possible values are `true` or `false`.
 
 ## Notes
 
