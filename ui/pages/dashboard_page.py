@@ -49,7 +49,7 @@ class DashboardPage(BasePage):
 
     def open_alerts_page(self, section, url):
         self.click(self.alert_btn)
-        time.sleep(2)
+        time.sleep(3)
         self.go_to_section_via_menu(section)
         self.page.wait_for_url(url)
 

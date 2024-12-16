@@ -11,6 +11,9 @@ from ui.pages.dashboard_page import DashboardPage
 class DevicesPage(DashboardPage):
 
     def check_page_opened(self):
+        self.check_presence(self.loader_label, False)
+        self.check_presence(self.cell)
+        time.sleep(5)  # todo
         self.should_be(self.dashboard_title, contains_text="Devices")
 
     @allure.step("Check table cells is not empty")

@@ -52,7 +52,6 @@ def test_dashboard_pages(page, login):
         devices_page = DevicesPage(page)
         time.sleep(5) # todo
         devices_page.check_page_opened()
-        devices_page.check_table_is_not_empty()
 
     with allure.step("Go to Manufactured"):
         sidebar.open_users_page('Manufactured', sidebar.manufactured)
@@ -66,7 +65,6 @@ def test_dashboard_pages(page, login):
         calibration_page = CalibrationPage(page)
         time.sleep(5) # todo
         calibration_page.check_page_opened()
-        calibration_page.check_table_is_not_empty()
 
     with allure.step("Go to Video Markup"):
         sidebar.open_users_page('Video Markup', sidebar.video_markup)

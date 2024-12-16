@@ -69,5 +69,6 @@ class ShopsPage(DashboardPage):
                 assert cell.text_content() != '', f'No data for shop {shop_name}'
 
     def check_page_opened(self):
+        self.check_presence(self.cell)
         self.should_be(self.dashboard_title, contains_text="Shops")
         self.check_presence(self.edit_shop_btn)

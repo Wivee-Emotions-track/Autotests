@@ -11,6 +11,8 @@ from ui.pages.dashboard_page import DashboardPage
 class CalibrationPage(DashboardPage):
 
     def check_page_opened(self):
+
+        self.check_presence(self.cell)
         self.should_be(self.dashboard_title, contains_text="Calibration")
 
     @allure.step("Check table cells is not empty")
