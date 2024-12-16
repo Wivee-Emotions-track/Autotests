@@ -40,3 +40,5 @@ class TokensPage(DashboardPage):
                                                   ' You will not be able to use it once it is revoked.')
         self.click(self.confirm_revoke_btn)
 
+    def check_page_opened(self):
+        self.should_be(self.dashboard_title, contains_text="API tokens")

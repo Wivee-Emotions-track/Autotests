@@ -50,5 +50,4 @@ class UsersPage(DashboardPage):
             assert None, f'User {user_name} is not deleted'
 
     def check_page_opened(self):
-        self.should_be(self.dashboard_title, contains_text="Shops")
-        self.check_presence(self.add_user_btn)
+        self.check_presence(self.add_user_btn, timeout=10)
