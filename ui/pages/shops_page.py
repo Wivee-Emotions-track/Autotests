@@ -61,7 +61,7 @@ class ShopsPage(DashboardPage):
     @allure.step("Check table cells is not empty")
     def check_table_is_not_empty(self, shops):
         self.check_presence(self.table_row)
-        time.sleep(2)  # todo
+        time.sleep(5)  # todo
         for shop_name in shops:
             row = self.get_elements(self.table_row, contains_text=shop_name)
             cells = self.get_childs_element(row, self.cell)[:-1]

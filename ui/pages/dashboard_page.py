@@ -66,6 +66,7 @@ class DashboardPage(BasePage):
         self.page.wait_for_url(url)
 
     def go_to_section_via_menu(self, section: str):
+        self.check_presence(self.menu_items_list)
         menu_item = self.get_elements(self.menu_items_list, contains_text=section)
         menu_item.click()
 

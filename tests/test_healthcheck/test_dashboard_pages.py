@@ -43,6 +43,17 @@ def test_dashboard_pages(page, login):
         sidebar.open_alerts_page('Alert Rules', sidebar.alert_rules)
         AlertRules(page).check_page_opened()
 
+
+@allure.title("Test dashboard users pages")
+def test_dashboard_users_pages(page, login):
+
+    sidebar = DashboardPage(page)
+    sidebar.open_shops_page()
+    shops_page = ShopsPage(page)
+    shops_page.check_loader_absence()
+    time.sleep(5) # todo
+    shops_page.check_page_opened()
+
     with allure.step("Go to users"):
         sidebar.open_users_page('Users', sidebar.users)
         UsersPage(page).check_page_opened()

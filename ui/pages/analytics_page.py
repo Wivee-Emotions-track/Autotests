@@ -128,6 +128,7 @@ class AnalyticsPage(DashboardPage):
     def check_date_in_filter(self, days_ago: int):
 
         # Получаем текущую дату
+        self.check_presence(self.loader_label, False)
         today = datetime.today()
         end_date = self.get_text(self.end_date_input, input=True)
         end_date_obj = datetime.strptime(end_date, '%Y-%m-%d')
@@ -149,6 +150,8 @@ class AnalyticsPage(DashboardPage):
     @allure.step("check_date_in_filter_with_previous_week")
     def check_date_in_filter_with_previous_week(self):
 
+        self.check_presence(self.loader_label, False)
+        time.sleep(5)  # todo
         sunday = self.get_text(self.start_date_input, input=True)
         saturday = self.get_text(self.end_date_input, input=True)
         sunday_date = datetime.strptime(sunday, '%Y-%m-%d').date()
@@ -170,6 +173,8 @@ class AnalyticsPage(DashboardPage):
     @allure.step("check_date_in_filter_with_previous_month")
     def check_date_in_filter_with_previous_month(self):
 
+        self.check_presence(self.loader_label, False)
+        time.sleep(5)  # todo
         first_day_of_month = self.get_text(self.start_date_input, input=True)
         last_day_of_month = self.get_text(self.end_date_input, input=True)
 
@@ -205,6 +210,7 @@ class AnalyticsPage(DashboardPage):
     def select_zones(self, zone_name):
 
         self.click(self.zones_filter)
+        self.check_presence(self.zones_list_item)
         self.get_elements(self.zones_list_item, zone_name).click()
         self.click(self.dashboard_title)
 
@@ -213,6 +219,7 @@ class AnalyticsPage(DashboardPage):
 
         self.click(self.shops_filter)
         self.type_in(self.search_filter_input, shop_name)
+        self.check_presence(self.shops_list_item)
         self.get_elements(self.shops_list_item, shop_name).click()
         self.click(self.dashboard_title)
 

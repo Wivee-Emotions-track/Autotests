@@ -22,12 +22,9 @@ def login_with_date(page, get_config):
 
 @allure.title("Test table preview")
 def test_table_check(page, login_with_date):
-    file_name = f'AutotestExport_{datetime.utcnow().strftime("%d_%m_%H_%M")}'
     analytics_page = AnalyticsPage(page)
     analytics_page.open_graphics()
     analytics_page.open_table()
-    analytics_page.open_settings()
-    analytics_page.export_data(file_name)
 
 
 @allure.title("Test edit table columns")

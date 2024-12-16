@@ -5,7 +5,7 @@ from playwright.sync_api import Page
 
 from configs.project_paths import SCREENSHOTS_PATH
 
-
+DEFAULT_TIMEOUT = 5000
 class BasePage:
 
     def __init__(self, page: Page, url=None):
@@ -17,7 +17,7 @@ class BasePage:
             self.url = url
         self.page.goto(self.url)
 
-    def check_presence(self, locator: str, visible=True, timeout=None):
+    def check_presence(self, locator: str, visible=True, timeout=DEFAULT_TIMEOUT):
         if visible:
             self.page.wait_for_selector(selector=locator, timeout=timeout, state='visible')
         else:
@@ -28,15 +28,16 @@ class BasePage:
         element.scroll_into_view_if_needed()
         element.click(timeout=timeout, force=force)
 
-    def fill(self, locator: str, data: str, timeout=None) -> None:
+    def fill(self, locator: str, data: str, timeout=DEFAULT_TIMEOUT) -> None:
         self.page.locator(locator).fill(data, timeout=timeout)
 
-    def type_in(self, locator: str, data: str, timeout=None, press_enter=False):
+    def type_in(self, locator: str, data: str, timeout=DEFAULT_TIMEOUT, press_enter=False):
         self.page.fill(locator, data, timeout=timeout)
         if press_enter:
             self.page.press(locator, "Enter")
 
-    def get_text(self, locator: str, input=False, attribute='', index=0, timeout=5) -> str:
+    def get_text(self, locator: str, input=False, attribute='', index=0, timeout=DEFAULT_TIMEOUT) -> str:
+        self.check_presence(locator)
         if input:
             return self.page.locator(locator).nth(index).input_value(timeout=timeout)
         if attribute:
@@ -55,7 +56,7 @@ class BasePage:
         if allure_posting:
             allure.attach.file(screenshot_path, name=file_name, attachment_type=allure.attachment_type.PNG)
 
-    def reload(self, timeout=None):
+    def reload(self, timeout=DEFAULT_TIMEOUT):
         self.page.reload(timeout=timeout)
 
     def get_elements(self, locator: str, contains_text='', index: int = None):
@@ -87,6 +88,7 @@ class BasePage:
 
     def should_be(self, locator, contains_text='', input=False):
 
+        self.page.locator(locator).wait_for()
         element_text = self.get_text(locator, input=input)
 
         if contains_text:
