@@ -27,16 +27,14 @@ def create_shop(fixture_shops_api):
 
 @pytest.fixture()
 def create_shop_via_ui(page, login):
-    path_to_reference = path.join(path.dirname(__file__), 'test_data', 'canvas_screenshot.PNG')
     shop_name = f'AutotestShop_{datetime.utcnow().strftime("%d_%m_%H_%M_%S")}'
     shops_page = ShopsPage(page)
     time.sleep(5)  # todo
     shops_page.add_shop()
 
     create_shop = CreateShopPage(page)
-    create_shop.upload_plan(path.join(path.dirname(__file__), 'test_data', 'plan.PNG'))
-    path_to_image = create_shop.draw_zone()
-    # assert compare_image(path_to_image, path_to_reference), 'Zones on plans are different'
+    create_shop.upload_plan(path.join(path.dirname(__file__), 'test_data', 'test_shop_setup', 'plan.PNG'))
+    create_shop.draw_zone()
     create_shop.go_to_shop_details()
     create_shop.fill_shop_fields(shop_name, "Poland", "Poland", "Automotive", "10 per Day")
     create_shop.save_shop()
@@ -47,14 +45,14 @@ def create_shop_via_ui(page, login):
 @allure.title("Test shop setup")
 def test_shop_setup(page, login, get_config):
 
-    path_to_reference = path.join(path.dirname(__file__), 'test_data', 'canvas_screenshot.PNG')
+    path_to_reference = path.join(path.dirname(__file__), 'test_data', 'test_shop_setup', 'canvas_screenshot.PNG')
     shop_name = f'AutotestShop_{datetime.utcnow().strftime("%d_%m_%H_%M_%S")}'
     shops_page = ShopsPage(page)
     time.sleep(5)  # todo
     shops_page.add_shop()
 
     create_shop = CreateShopPage(page)
-    create_shop.upload_plan(path.join(path.dirname(__file__), 'test_data', 'plan.PNG'))
+    create_shop.upload_plan(path.join(path.dirname(__file__), 'test_data', 'test_shop_setup', 'plan.PNG'))
     path_to_image = create_shop.draw_zone()
     create_shop.go_to_shop_details()
     create_shop.fill_shop_fields(shop_name, "Poland", "Poland", "Automotive", "10 per Day")
@@ -94,8 +92,12 @@ def test_edit_shop_data(page, create_shop, login):
     create_shop.check_shop_data(shop_data)
 
 
-@allure.title("Test edit shop zone")
-def test_edit_shop_zone(page, create_shop_via_ui):
+@allure.title("Test edit shop add new zone")
+def test_edit_shop_add_new_zone(page, create_shop_via_ui):
+
+    screenshot_name = f'ZoneScreen_{datetime.utcnow().strftime("%d_%m_%H_%M_%S")}.PNG'
+    path_to_reference = path.join(path.dirname(__file__), 'test_data', 'test_edit_shop_add_new_zone',
+                                  'edit_zone_new_zone.PNG')
 
     shop_name = create_shop_via_ui
     sidebar = DashboardPage(page)
@@ -105,7 +107,47 @@ def test_edit_shop_zone(page, create_shop_via_ui):
     shops_page.check_search_result(shop_name)
     shops_page.edit_shop()
     create_shop = CreateShopPage(page)
-    path_to_image = create_shop.draw_zone()
+    create_shop.go_to_edit_zone_tab()
+    time.sleep(15)  # долго подгружается картинка todo
+
+    create_shop.select_zone('Chips')
+    path_to_image = create_shop.draw_zone(100, 75, screenshot_name)
+    create_shop.save_shop(False)
+
+    time.sleep(5)  # todo
+    shops_page.search_shop(shop_name)
+    shops_page.check_search_result(shop_name)
+    shops_page.edit_shop()
+    create_shop.check_edit_page_opened()
+    assert compare_image(path_to_image, path_to_reference), 'Zones on plans are different'
+
+
+@allure.title("Test edit shop drag_zone")
+def test_edit_shop_drag_zone(page, create_shop_via_ui):
+    screenshot_name = f'DragZoneScreen_{datetime.utcnow().strftime("%d_%m_%H_%M_%S")}.PNG'
+    path_to_reference = path.join(path.dirname(__file__), 'test_data', 'test_edit_shop_drag_zone',
+                                  'drag_zone_screen.PNG')
+
+    shop_name = create_shop_via_ui
+    sidebar = DashboardPage(page)
+    sidebar.open_shops_page()
+    shops_page = ShopsPage(page)
+    shops_page.search_shop(shop_name)
+    shops_page.check_search_result(shop_name)
+    shops_page.edit_shop()
+    create_shop = CreateShopPage(page)
+    create_shop.go_to_edit_zone_tab()
+    time.sleep(15)  # долго подгружается картинка todo
+    path_to_image = create_shop.drag_zone_via_coordinates(250, 125, screenshot_name=screenshot_name)
+
+    create_shop.save_shop(False)
+
+    time.sleep(5)  # todo
+    shops_page.search_shop(shop_name)
+    shops_page.check_search_result(shop_name)
+    shops_page.edit_shop()
+    create_shop.check_edit_page_opened()
+    assert compare_image(path_to_image, path_to_reference), 'Zones on plans are different'
 
 
 @allure.title("Test add sensor to shop")
@@ -113,7 +155,7 @@ def test_add_sensor_to_shop(page, create_shop_via_ui, get_config):
 
     shop_name = create_shop_via_ui
     shops_page = ShopsPage(page)
-    shops_page.open(get_config['host']['url']+'/activate-sensor/d8:3a:dd:c3:60:56')
+    shops_page.open(get_config['urls']['host']+'/activate-sensor/d8:3a:dd:c3:60:56')
     activate_sensor_page = ActivateSensorPage(page)
     activate_sensor_page.add_sensor()
     activate_sensor_page.upload_sensor_photo(path.join(path.dirname(__file__), 'test_data', 'sensor_photo.PNG'))

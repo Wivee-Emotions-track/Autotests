@@ -38,10 +38,12 @@ class ShopsPage(DashboardPage):
         self.type_in(self.search_input, location)
         self.click(self.start_search_btn)
 
+    @allure.step("Edit shop")
     def edit_shop(self):
         self.click(self.edit_shop_btn)
         self.check_presence(self.table_row, False)
 
+    @allure.step("Open shop")
     def open_shop(self, shop_name):
 
         self.get_elements(self.shop_in_table_item, contains_text=shop_name).click()

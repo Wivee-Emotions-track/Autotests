@@ -60,7 +60,7 @@ class BasePage:
         self.page.reload(timeout=timeout)
 
     def get_elements(self, locator: str, contains_text='', index: int = None):
-        list_of_elements = self.page.locator(locator).all()  # todo hastext
+        list_of_elements = self.page.locator(locator, has_text=contains_text).all()  # todo hastext
         if contains_text:
             try:
                 element = [element for element in list_of_elements if contains_text.lower() in
