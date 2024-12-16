@@ -85,9 +85,11 @@ This repository contains a Dockerized test environment using Playwright and Pyth
 
 ## Environment Variables
 
-- **ENV**: Specifies the environment configuration. Possible values are `prod`, `stage1`, `stage2`, `stage3`.
+- **ENV**: Specifies the environment configuration. Possible values are `prod`, `staging1`, `staging2`, `staging3`.
 
 - **HEALTHCHECK**: Enables or disables health checks. Possible values are `true` or `false`.
+
+- **VAULT_TOKEN**: Await token for vault. Value is valid vault token
   
 You can use these variables like -e Docker parameters or define them in a .env file.
 
