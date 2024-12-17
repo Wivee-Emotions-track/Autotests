@@ -53,7 +53,7 @@ def page(browser, request, fixture_additional_test_item_info):
     # context = browser.new_context(viewport={"width": 1920, "height": 900}, device_scale_factor=1)
     # context = browser.new_context()
     context = browser.new_context(no_viewport=True,
-                                  viewport={"width": 1920, "height": 1080},
+                                  viewport={"width": 1920, "height": 900},
                                   )
 
     page = context.new_page()

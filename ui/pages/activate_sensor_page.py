@@ -30,8 +30,11 @@ class ActivateSensorPage(DashboardPage):
         self.click(self.shops_list_item)
         # self.get_elements(self.shops_list_item, contains_text=shop_name).click()
 
-    def continue_flow(self):
-        self.click(self.continue_btn)
+    def continue_flow(self, contains_text=''):
+        if contains_text:
+            self.click(self.continue_btn, contains_text=contains_text)
+        else:
+            self.click(self.continue_btn)
 
     def setup_position(self):
         self.check_presence(self.setup_sensor_position_btn)

@@ -42,6 +42,7 @@ class CreateShopPage(DashboardPage):
     open_hours_weekend_start_input = '[id="openHoursWeekend"]'
     open_hours_weekend_end_input = '//input[@id="openHoursWeekend"]/..//following-sibling::div/input'
     save_shop_btn = '[type="submit"]'
+    save_zone_btn = '[aria-labelledby="rc-tabs-0-tab-zones"] .ant-btn-primary'
 
     # edit zones
     zones_list_btn = '.ant-tabs-content .ant-flex button'
@@ -146,6 +147,11 @@ class CreateShopPage(DashboardPage):
         self.click(self.save_shop_btn)
         if check_congrats:
             self.check_presence(self.congrats_panel)
+
+    @allure.step("save zone")
+    def save_zone(self):
+
+        self.click(self.save_zone_btn)
 
     @allure.step("save edit data")
     def save_changes(self):

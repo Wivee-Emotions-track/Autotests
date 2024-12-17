@@ -4,8 +4,11 @@ import allure
 from playwright.sync_api import Page
 
 from configs.project_paths import SCREENSHOTS_PATH
+from helpers.images_compare import get_coordinates_of_found_element
 
 DEFAULT_TIMEOUT = 5000
+
+
 class BasePage:
 
     def __init__(self, page: Page, url=None):
@@ -23,8 +26,11 @@ class BasePage:
         else:
             self.page.wait_for_selector(selector=locator, timeout=timeout, state='hidden')
 
-    def click(self, locator: str, timeout=None, force=True) -> None:
-        element = self.page.locator(locator)
+    def click(self, locator: str, timeout=None, force=True, contains_text='') -> None:
+        if contains_text:
+            element = self.page.locator(locator, has_text=contains_text)
+        else:
+            element = self.page.locator(locator)
         element.scroll_into_view_if_needed()
         element.click(timeout=timeout, force=force)
 
@@ -96,3 +102,11 @@ class BasePage:
             assert contains_text.lower() in element_text.lower(), \
                 f'No text {contains_text} in element {locator},' \
                 f' displayed text is {element_text}'
+
+    def click_on_image(self, canvas_locator, screenshot_name, path_to_image):
+        canvas_box = self.page.locator(canvas_locator)
+        background_path = os.path.join(SCREENSHOTS_PATH, screenshot_name)
+        canvas_box.screenshot(path=background_path)
+
+        x, y = get_coordinates_of_found_element(background_path, path_to_image, canvas_box)
+        self.page.mouse.click(x, y)

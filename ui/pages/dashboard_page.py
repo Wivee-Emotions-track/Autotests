@@ -10,6 +10,7 @@ from ui.pages.base_page import BasePage
 class DashboardPage(BasePage):
 
     analytics_btn = '.anticon-pie-chart'
+    canvas_label = '.konvajs-content'
     shop_btn = '.anticon-shop'
     alert_btn = '.anticon-notification'
     users_btn = '.anticon-user'

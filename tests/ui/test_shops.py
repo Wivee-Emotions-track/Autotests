@@ -7,7 +7,7 @@ import allure
 import pytest
 
 from configs.project_paths import SCREENSHOTS_PATH
-from helpers.images_compare import compare_image, get_coordinates_of_found_element
+from helpers.images_compare import compare_image
 from ui.pages.activate_sensor_page import ActivateSensorPage
 from ui.pages.create_shop_page import CreateShopPage
 from ui.pages.dashboard_page import DashboardPage
@@ -112,11 +112,12 @@ def test_edit_shop_add_new_zone(page, create_shop_via_ui):
 
     create_shop.select_zone('Chips')
     path_to_image = create_shop.draw_zone(100, 75, screenshot_name)
-    create_shop.save_shop(False)
+    create_shop.save_zone()
+    create_shop.page.go_back()
 
     time.sleep(5)  # todo
-    shops_page.search_shop(shop_name)
-    shops_page.check_search_result(shop_name)
+    # shops_page.search_shop(shop_name)
+    # shops_page.check_search_result(shop_name)
     shops_page.edit_shop()
     create_shop.check_edit_page_opened()
     assert compare_image(path_to_image, path_to_reference), 'Zones on plans are different'
@@ -140,13 +141,14 @@ def test_edit_shop_drag_zone(page, create_shop_via_ui):
     time.sleep(15)  # долго подгружается картинка todo
     path_to_image = create_shop.drag_zone_via_coordinates(250, 125, screenshot_name=screenshot_name)
 
-    create_shop.save_shop(False)
-
+    create_shop.save_zone()
+    create_shop.page.go_back()
     time.sleep(5)  # todo
-    shops_page.search_shop(shop_name)
-    shops_page.check_search_result(shop_name)
+    # shops_page.search_shop(shop_name)
+    # shops_page.check_search_result(shop_name)
     shops_page.edit_shop()
     create_shop.check_edit_page_opened()
+    time.sleep(15)  # долго подгружается картинка todo
     assert compare_image(path_to_image, path_to_reference), 'Zones on plans are different'
 
 
@@ -163,16 +165,15 @@ def test_add_sensor_to_shop(page, create_shop_via_ui, get_config):
     activate_sensor_page.continue_flow()
     time.sleep(15) # todo долго прогружается схема
 
-    canvas_box = activate_sensor_page.page.locator('.konvajs-content')
-    background_path = os.path.join(SCREENSHOTS_PATH, 'canvas_screenshot_with_sensor.png')
-    canvas_box.screenshot(path=background_path)
     path_to_sensor = path.join(path.dirname(__file__), 'test_data', 'sensor_on_plan.PNG')
+    activate_sensor_page.click_on_image(activate_sensor_page.canvas_label,
+                                'canvas_screenshot_in_shop_with_zone.png', path_to_sensor)
 
-    x, y = get_coordinates_of_found_element(background_path, path_to_sensor, canvas_box)
-    page.mouse.click(x, y)
     activate_sensor_page.setup_position()
-    activate_sensor_page.continue_flow()
+    activate_sensor_page.continue_flow('Activate')
     activate_sensor_page.check_success()
+
+    activate_sensor_page.page.go_back()
 
     sidebar = DashboardPage(page)
 
@@ -180,9 +181,17 @@ def test_add_sensor_to_shop(page, create_shop_via_ui, get_config):
 
     shops_page.search_shop(shop_name)
     shops_page.check_search_result(shop_name)
-    shops_page.edit_shop()
-    create_shop = CreateShopPage(page)
-    path_to_image = create_shop.draw_zone()
+    shops_page.open_shop(shop_name)
+
+    opened_shops = OpenedShopPage(page)
+    opened_shops.check_shop_opened()
+
+    path_to_zone = path.join(path.dirname(__file__), 'test_data', 'test_add_sensor_to_shop', 'zone_on_plan.PNG')
+
+    opened_shops.click_on_image(opened_shops.canvas_label,
+                                'canvas_screenshot_in_shop_with_zone.png', path_to_zone)
+
+    opened_shops.check_zone_info()
 
 
 @allure.title("Test open shop")

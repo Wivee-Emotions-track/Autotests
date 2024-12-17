@@ -50,6 +50,7 @@ class ShopsPage(DashboardPage):
 
     def check_search_result(self, shop_name='', location=''):
         for page in range(10):
+            time.sleep(2)
             self.click(self.next_page_btn)
             if self.get_elements(self.table_row):
                 break
