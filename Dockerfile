@@ -46,5 +46,4 @@ COPY . .
 VOLUME ["/reports/allure-results"]
 
 # Define the command to run your tests and generate Allure results
-CMD ["pytest", "--alluredir=/reports/allure-results"]
 CMD ["sh", "-c", "pytest -n ${THREADS_COUNT:-1} --alluredir=/reports/allure-results"]

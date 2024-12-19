@@ -77,9 +77,8 @@ def get_config(env, save_configs):
 
 @pytest.fixture(scope="session")
 def save_configs(env, worker_id):
-    if worker_id in ('gw0', 'master'):
-        config_dict = save_env_configs(env)
-        return config_dict
+    config_dict = save_env_configs(env)
+    return config_dict
 
 
 @pytest.fixture(name="env", scope="session")

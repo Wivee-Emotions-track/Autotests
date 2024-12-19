@@ -1,3 +1,5 @@
+import time
+
 import allure
 import pytest
 
@@ -17,7 +19,7 @@ def test_analytic_table_check_data(page, get_config, username, shops):
     login_page = LoginPage(page, get_config['urls']['host'])
     login_page.open('https://app.wayvee.com/analytics')
     # login_page.open()
-    login_page.login(get_config['credentials'][username]['login'], get_config['credentials'][username]['login'])
+    login_page.login(get_config['credentials'][username]['login'], get_config['credentials'][username]['password'])
     analytics_page = AnalyticsPage(page)
     analytics_page.check_page_opened()
     analytics_page.check_loader_absence()
@@ -35,8 +37,10 @@ def test_shop_table_check_data(page, get_config, username, shops):
     login_page = LoginPage(page, get_config['urls']['host'])
     # login_page.open('https://app.wayvee.com/shops')
     login_page.open(get_config['urls']['host'] + '/shops')
-    login_page.login(get_config['credentials'][username]['login'], get_config['credentials'][username]['login'])
+    login_page.login(get_config['credentials'][username]['login'], get_config['credentials'][username]['password'])
     shops_page = ShopsPage(page)
     shops_page.check_loader_absence()
+    time.sleep(5) # todo
     shops_page.check_page_opened()
     shops_page.check_table_is_not_empty(shops)
+

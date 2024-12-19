@@ -11,7 +11,7 @@ from helpers.filename_helpers import generate_filename, get_url_with_filter
 from helpers.compare_csv import compare_csv_files
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def remove_download_files():
     download_dir = "csv_downloads"
 
@@ -28,7 +28,7 @@ def remove_download_files():
         (3, "2024-06-10", "2024-06-15", None, False, "shop_id", "21:00", "23:00", None),
         (3, "2024-06-10", "2024-06-15", None, False, "shop_id", "21:00", "23:00", "engagements_per_customer,csat_avg"),
     ])
-def test_check_analytics_export_file(page, get_config, remove_download_files, compare, from_date, to_date,
+def test_check_analytics_export_file(page, get_config, compare, from_date, to_date,
                                      compareShift, dataSource, splitBy, timeFrom, timeTo,
                                      selectedMetrics):
     username = get_config['credentials']['super_user']['login']

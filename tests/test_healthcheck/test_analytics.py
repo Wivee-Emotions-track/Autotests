@@ -99,6 +99,7 @@ def test_time_filter(page, login):
 def test_zones_filter(page, login_with_date):
 
     analytics_page = AnalyticsPage(page)
+    analytics_page.check_page_opened()
     analytics_page.select_zones('TV')
     analytics_page.check_table_with_filters('Auki Labs ( final )')
 

@@ -15,6 +15,8 @@ BROWSERS = {
 def get_env_configs():
 
     config_path = path.join(path.dirname(__file__), "env_configs.json")
+    if not os.path.exists(config_path):
+        save_env_configs(get_env())
     with open(config_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
