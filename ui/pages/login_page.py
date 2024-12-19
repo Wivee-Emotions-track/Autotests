@@ -22,9 +22,8 @@ class LoginPage(BasePage):
         self.click(self.sign_in_btn)
 
     def get_error_message(self):
-        return self.page.inner_text(LoginPageLocators.ERROR_MESSAGE)
+        return self.get_text(self.error_msg)
 
     def check_error_msg(self):
 
-        assert "You can use a sign-in code, reset your password or try again" in self.get_error_message(), \
-                "No message for invalid username and password"
+        assert "Invalid Email or Password" in self.get_error_message()

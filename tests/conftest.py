@@ -3,7 +3,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from configs.config import get_env_configs, get_env
+from configs.config import get_env_configs, get_env, save_env_configs
 from configs.project_paths import ROOT_DIR_PATH, ALLURE_RESULTS_PATH
 from helpers.test_data_helper import load_test_data
 from log import logger
@@ -70,9 +70,16 @@ def pytest_collection_modifyitems(config, items):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def get_config(env):
-    config_dict = get_env_configs(env)
+def get_config(env, save_configs):
+    config_dict = get_env_configs()
     return config_dict
+
+
+@pytest.fixture(scope="session")
+def save_configs(env, worker_id):
+    if worker_id in ('gw0', 'master'):
+        config_dict = save_env_configs(env)
+        return config_dict
 
 
 @pytest.fixture(name="env", scope="session")

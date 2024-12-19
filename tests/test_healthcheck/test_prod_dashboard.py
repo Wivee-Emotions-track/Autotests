@@ -33,8 +33,8 @@ def test_analytic_table_check_data(page, get_config, username, shops):
 def test_shop_table_check_data(page, get_config, username, shops):
 
     login_page = LoginPage(page, get_config['urls']['host'])
-    login_page.open('https://app.wayvee.com/shops')
-    # login_page.open(get_config['urls']['host'] + '/shops')
+    # login_page.open('https://app.wayvee.com/shops')
+    login_page.open(get_config['urls']['host'] + '/shops')
     login_page.login(get_config['credentials'][username]['login'], get_config['credentials'][username]['login'])
     shops_page = ShopsPage(page)
     shops_page.check_loader_absence()

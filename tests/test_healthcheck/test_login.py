@@ -8,21 +8,23 @@ from ui.pages.login_page import LoginPage
 from configs.config import get_env_configs, get_env
 
 
-correct_login = get_env_configs(get_env())['credentials']['admin']['login']
-correct_password = get_env_configs(get_env())['credentials']['admin']['password']
-
-
-@pytest.mark.parametrize("username, password, valid", [
-    (correct_login, correct_password, True)
-])
+@pytest.mark.parametrize("valid", [True, False])
 @allure.title("Check login with valid/invalid username and password")
-def test_wayvee_login(page, get_config, username, password, valid):
-
+def test_wayvee_login(page, get_config, valid):
     login_page = LoginPage(page, get_config['urls']['host'])
-    login_page.open('https://app.wayvee.com/')
-    # login_page.open()
+
+    login_page.open()
+    if valid:
+        username = get_config['credentials']['super_user']['login']
+        password = get_config['credentials']['super_user']['password']
+    else:
+        username = get_config['credentials']['super_user']['login']
+        password = 'incorrect_password'
 
     login_page.login(username, password)
     sleep(5)
-    dashboard_page = DashboardPage(page)
-    dashboard_page.check_logged_in()
+    if valid:
+        dashboard_page = DashboardPage(page)
+        dashboard_page.check_logged_in()
+    else:
+        login_page.check_error_msg()

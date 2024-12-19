@@ -31,8 +31,8 @@ def remove_download_files():
 def test_check_analytics_export_file(page, get_config, remove_download_files, compare, from_date, to_date,
                                      compareShift, dataSource, splitBy, timeFrom, timeTo,
                                      selectedMetrics):
-    username = get_config['credentials']['admin']['login']
-    password = get_config['credentials']['admin']['password']
+    username = get_config['credentials']['super_user']['login']
+    password = get_config['credentials']['super_user']['password']
     base_url = "https://app.wayvee.com/analytics"
 
     login_page = LoginPage(page, get_config['urls']['host'])

@@ -36,7 +36,8 @@ RUN pip install --no-cache-dir \
     pyperclip \
     allure-pytest \
     psycopg2-binary \
-    opencv-python
+    opencv-python \
+    pytest-xdist
 
 # Copy the application code
 COPY . .
@@ -46,3 +47,4 @@ VOLUME ["/reports/allure-results"]
 
 # Define the command to run your tests and generate Allure results
 CMD ["pytest", "--alluredir=/reports/allure-results"]
+CMD ["sh", "-c", "pytest -n ${THREADS_COUNT:-1} --alluredir=/reports/allure-results"]

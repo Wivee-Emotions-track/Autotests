@@ -12,7 +12,7 @@ class BaseAPI:
 
     def __init__(self):
         self.logger = logging.getLogger("TestLogger")
-        self.config = get_env_configs(get_env())
+        self.config = get_env_configs()
 
         self.url = self.config['urls']['host'] + "graphql"
         self.login = self.config['credentials']['super_user']['login']

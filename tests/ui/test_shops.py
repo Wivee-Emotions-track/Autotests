@@ -125,6 +125,8 @@ def test_add_sensor_to_shop(page, create_shop_via_ui, get_config):
     background_path = os.path.join(SCREENSHOTS_PATH, 'canvas_screenshot_with_sensor.png')
     canvas_box.screenshot(path=background_path)
     path_to_sensor = path.join(path.dirname(__file__), 'test_data', 'sensor_on_plan.PNG')
+    activate_sensor_page.click_on_image(activate_sensor_page.canvas_label,
+                                        'canvas_screenshot_in_shop_with_zone.png', path_to_sensor)
 
     x, y = get_coordinates_of_found_element(background_path, path_to_sensor, canvas_box)
     page.mouse.click(x, y)

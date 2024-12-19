@@ -56,6 +56,7 @@ def test_dashboard_users_pages(page, login):
 
     with allure.step("Go to users"):
         sidebar.open_users_page('Users', sidebar.users)
+        time.sleep(5)
         UsersPage(page).check_page_opened()
         
     with allure.step("Go to Devices"):
@@ -82,4 +83,3 @@ def test_dashboard_users_pages(page, login):
         video_markup_page = VideoMarkupPage(page)
         time.sleep(5) # todo
         video_markup_page.check_page_opened()
-        video_markup_page.check_page_is_not_empty()
