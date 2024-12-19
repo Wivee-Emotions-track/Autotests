@@ -97,7 +97,7 @@ class CreateShopPage(DashboardPage):
         canvas_box.screenshot(path=screenshot_path)
         return screenshot_path
 
-    @allure.step('drag zone')
+    @allure.step('remove zone')
     def remove_zone_via_coordinates(self, x2, y2, x1=0, y1=0):
 
         canvas_box = self.page.locator(self.uploaded_plan).bounding_box()
@@ -107,7 +107,6 @@ class CreateShopPage(DashboardPage):
         start_y = canvas_box["y"] + canvas_box["height"] / 2 - y1
 
         self.page.mouse.click(start_x, start_y)  # Переместить мышь к начальной точке
-
 
         canvas_box = self.page.locator(self.uploaded_plan)
         screenshot_path = os.path.join(SCREENSHOTS_PATH, 'drag_screenshot.png')

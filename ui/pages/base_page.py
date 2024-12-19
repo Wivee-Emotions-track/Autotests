@@ -110,3 +110,11 @@ class BasePage:
 
         x, y = get_coordinates_of_found_element(background_path, path_to_image, canvas_box)
         self.page.mouse.click(x, y)
+
+    def make_screenshot(self, canvas_locator, screenshot_name):
+
+        canvas_box = self.page.locator(canvas_locator)
+        background_path = os.path.join(SCREENSHOTS_PATH, screenshot_name)
+        canvas_box.screenshot(path=background_path)
+        return background_path
+

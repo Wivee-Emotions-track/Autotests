@@ -84,3 +84,22 @@ class ShopsApi(BaseAPI):
         # response = self.post(url=self.url, files=multipart_data)
         response = self.post(url=self.url, json={"query": query, "variables": variables})
         return response.json()['data']['createShop']['id']
+
+    @allure.step('Remove shop via api request')
+    def remove_shop(self, shop_id):
+
+        query = """
+            mutation DeleteShop($id: ID!) {
+                deleteShop(id: $id) {
+                    id
+                    name
+                }
+            }
+        """
+
+        variables = {
+            "id": shop_id
+        }
+
+        response = self.post(url=self.url, json={"query": query, "variables": variables})
+        return response.json()['data']['createShop']['id']

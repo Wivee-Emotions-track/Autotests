@@ -1,4 +1,3 @@
-import os
 import time
 from datetime import datetime
 from os import path
@@ -121,6 +120,34 @@ def test_edit_shop_add_new_zone(page, create_shop_via_ui):
     shops_page.edit_shop()
     create_shop.check_edit_page_opened()
     assert compare_image(path_to_image, path_to_reference), 'Zones on plans are different'
+
+
+@allure.title("Test edit shop remove zone")
+def test_edit_shop_remove_zone(page, create_shop_via_ui):
+
+    path_to_reference = path.join(path.dirname(__file__), 'test_data', 'test_edit_shop_remove_zone',
+                                  'clean_plan.PNG')
+
+    shop_name = create_shop_via_ui
+    sidebar = DashboardPage(page)
+    sidebar.open_shops_page()
+    shops_page = ShopsPage(page)
+    shops_page.search_shop(shop_name)
+    shops_page.check_search_result(shop_name)
+    shops_page.edit_shop()
+    create_shop = CreateShopPage(page)
+    create_shop.go_to_edit_zone_tab()
+    time.sleep(15)  # долго подгружается картинка todo
+    path_to_zone = path.join(path.dirname(__file__), 'test_data', 'test_add_sensor_to_shop', 'zone_on_plan.PNG')
+    create_shop.click_on_image(create_shop.canvas_label,
+                               'canvas_screenshot_in_shop_with_zone.png', path_to_zone)
+
+    path_to_close = path.join(path.dirname(__file__), 'test_data', 'test_edit_Shop_remove_zone', 'close_on_zone.PNG')
+    create_shop.click_on_image(create_shop.canvas_label,
+                               'canvas_screenshot_in_shop_with_zone.png', path_to_close)
+    time.sleep(5) # todo на всякий случай
+    path_to_image = create_shop.make_screenshot(create_shop.uploaded_plan, 'clean_plan.png')
+    assert compare_image(path_to_image, path_to_reference), 'Zones was not removed'
 
 
 @allure.title("Test edit shop drag_zone")

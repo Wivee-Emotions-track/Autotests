@@ -50,9 +50,9 @@ class ShopsPage(DashboardPage):
 
     def check_search_result(self, shop_name='', location=''):
         for page in range(10):
-            time.sleep(2)
             self.click(self.next_page_btn)
-            if self.get_elements(self.table_row):
+            time.sleep(2)
+            if self.get_elements(self.table_row, contains_text=shop_name):
                 break
         if shop_name:
             assert self.get_elements(self.table_row, contains_text=shop_name), \
