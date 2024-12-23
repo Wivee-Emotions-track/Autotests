@@ -145,7 +145,7 @@ class CreateShopPage(DashboardPage):
 
         self.click(self.save_shop_btn)
         if check_congrats:
-            self.check_presence(self.congrats_panel)
+            self.check_presence(self.congrats_panel, timeout=10)
 
     @allure.step("save zone")
     def save_zone(self):
