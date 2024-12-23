@@ -23,10 +23,11 @@ def create_shop(fixture_shops_api):
                                             timezone='Poland', industry='Apparel and Fashion',
                                             traffic="10 per day")
     yield shop_name
+    fixture_shops_api.delete_shop(shop_id)
 
 
 @pytest.fixture()
-def create_shop_via_ui(page, login):
+def create_shop_via_ui(page, login, fixture_shops_api):
     path_to_reference = path.join(path.dirname(__file__), 'test_data', 'canvas_screenshot.PNG')
     shop_name = f'AutotestShop_{datetime.utcnow().strftime("%d_%m_%H_%M_%S")}'
     shops_page = ShopsPage(page)
@@ -42,6 +43,8 @@ def create_shop_via_ui(page, login):
     create_shop.save_shop()
     create_shop.check_congrats_and_apply()
     yield shop_name
+    shop_id = fixture_shops_api.search_shop_via_name(shop_name)['id']
+    fixture_shops_api.delete_shop(shop_id)
 
 
 @allure.title("Test shop setup")

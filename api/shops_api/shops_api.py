@@ -84,3 +84,60 @@ class ShopsApi(BaseAPI):
         # response = self.post(url=self.url, files=multipart_data)
         response = self.post(url=self.url, json={"query": query, "variables": variables})
         return response.json()['data']['createShop']['id']
+
+    def search_shop_via_name(self, shop_name):
+
+        query = """
+        query ListShops($userId: ID, $name: String, $pageInput: PageInput) {
+            shops(pageInput: $pageInput, name: $name, userId: $userId) {
+                nodes {
+                    id
+                    name
+                    location
+                    industry
+                    traffic
+                    openHours
+                    openHoursWeekend
+                    timeZone
+                    createdAt
+                    status
+                    planUrl
+                }
+                page {
+                    page
+                    perPage
+                    totalItems
+                }
+            }
+        }
+        """
+
+        variables = {
+            "name": shop_name,
+            "pageInput": {
+                "page": 1,
+                "perPage": 10
+            }
+        }
+
+        response = self.post(url=self.url, json={"query": query, "variables": variables})
+        return response.json()['data']['shops']['nodes'][0]
+
+    @allure.step('Remove shop via id')
+    def delete_shop(self, shop_id):
+
+        query = """
+            mutation DeleteShop($id: ID!) {
+                deleteShop(id: $id) {
+                    id
+                    name
+                }
+            }
+        """
+
+        variables = {
+            "id": shop_id
+        }
+
+        response = self.post(url=self.url, json={"query": query, "variables": variables})
+        return response.json()
