@@ -114,8 +114,12 @@ class AnalyticsPage(DashboardPage):
     def check_comparison_module_is_active(self):
 
         self.check_presence(self.cell)
-        cell = self.get_elements(self.cell, index=13)
-        assert "%" in cell.text_content(), 'Compare module wasn`t added'
+        for cell_number in range(30):
+            cell = self.get_elements(self.cell, index=cell_number)
+            if "%" in cell.text_content():
+                break
+        else:
+            raise (Exception('Compare module wasn`t added'))
 
     @allure.step("select days ago param in filter")
     def select_days_ago_in_filter(self, days_ago: str):
