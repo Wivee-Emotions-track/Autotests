@@ -48,7 +48,8 @@ def get_data_from_vault(env):
     else:
         vault_address = 'https://vault.wayvee.com/v1/applications/data/shopper-autotest-staging'
 
-    vault_token = os.getenv('VAULT_TOKEN')
+    # vault_token = os.getenv('VAULT_TOKEN')
+    vault_token = get_vault_token()
 
     headers = {
         "X-Vault-Token": vault_token
@@ -57,3 +58,40 @@ def get_data_from_vault(env):
     response = requests.get(vault_address, headers=headers)
     assert response.ok
     return response.json()['data']
+
+
+def get_vault_token() -> str:
+    """
+    Authenticate with Vault using a Kubernetes service account token.
+
+    Returns:
+        str: The client token obtained from Vault.
+    Raises:
+        Exception: If authentication fails.
+    """
+    role = 'shopper'
+    vault_address = "https://vault.wayvee.com"
+
+    # Path to the Kubernetes service account token
+    jwt_path = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+
+    # Read the JWT token from the service account file
+    with open(jwt_path, "r") as f:
+        jwt = f.read()
+
+    # Vault Kubernetes login endpoint
+    url = f"{vault_address}/v1/auth/kubernetes-staging/login"
+
+    # Payload containing the JWT and role name
+    payload = {
+        "jwt": jwt,
+        "role": role
+    }
+
+    # Send a POST request to authenticate with Vault
+    response = requests.post(url, json=payload)
+    response.raise_for_status()
+
+    # Extract the client token from the response
+    token = response.json()["auth"]["client_token"]
+    return token
