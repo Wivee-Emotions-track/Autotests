@@ -1,12 +1,19 @@
 import requests
 
+from configs.config import get_env_configs
+
 
 class IndustrialApi:
-    def __init__(self, url):
+    def __init__(self, url=''):
 
-        self.url = url
+        self.config = get_env_configs()
 
-    def add_device(self, token, device_version="v1", device_mode="Camera", date='2023-01-01', mac='',
+        if url:
+            self.url = url
+        self.url = self.config['urls']['external']
+        self.token = self.config['credentials']['industrial_api_token']
+
+    def add_device(self, device_version="v1", device_mode="Camera", date='2023-01-01', mac='',
                    check_response=True):
 
         payload = {
@@ -17,13 +24,13 @@ class IndustrialApi:
         }
         headers = {
           'Accept': 'application/json',
-          'Authorization': f'Bearer {token}'
+          'Authorization': f'Bearer {self.token}'
         }
 
-        response = requests.request("POST", self.url+'/industrial/registerDevice', headers=headers, json=payload)
+        response = requests.request("POST", self.url+'industrial/registerDevice', headers=headers, json=payload)
         if check_response:
             self.check_response(response)
-        return response
+        return response.json()['deviceId']
 
     def check_response(self, response):
         response_info = f'URL: {response.url}\n' \
