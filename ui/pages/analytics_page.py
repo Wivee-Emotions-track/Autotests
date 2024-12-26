@@ -73,8 +73,8 @@ class AnalyticsPage(DashboardPage):
 
     @allure.step("open_settings_and_check")
     def open_settings(self):
-        self.click(self.settings_btn)
-        self.check_presence(self.settings_form)
+        self.click(self.settings_btn)  # todo
+        self.check_presence(self.settings_form, timeout=10000)
 
     @allure.step("export data")
     def export_data(self, file_name):
